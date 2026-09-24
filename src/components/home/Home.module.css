@@ -1,0 +1,227 @@
+/* ---------------------------------------------------------------- hero */
+.hero {
+  position: relative;
+  min-height: calc(100vh - 5rem);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.heroMap {
+  position: absolute;
+  inset: -12% -8%;
+  color: var(--ink);
+  opacity: 0.32;
+  mask-image: radial-gradient(ellipse at 62% 50%, #000 30%, transparent 72%);
+  pointer-events: none;
+  animation: drift 90s linear infinite alternate;
+}
+.heroSvg { width: 100%; height: 100%; }
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) rotate(-1.5deg) scale(1.02); }
+  to { transform: translate3d(-2%, -1.5%, 0) rotate(1.5deg) scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) { .heroMap { animation: none; } }
+
+.heroInner {
+  position: relative;
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: 6rem clamp(1rem, 3.5vw, 3.125rem) 5rem;
+  width: 100%;
+}
+.heroTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.4rem, 6.2vw, 6rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  max-width: 12em;
+  margin: 1rem 0 1.8rem;
+  text-wrap: balance;
+}
+.heroLead {
+  font-size: clamp(1.05rem, 1.5vw, 1.5rem);
+  line-height: 1.5;
+  max-width: 34em;
+  color: var(--ink-soft);
+}
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2.8rem;
+}
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.95em 2.1em 0.85em 2.4em;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  transition: background 0.3s, color 0.3s;
+}
+.ctaPrimary:hover { background: transparent; color: var(--accent-deep); }
+.ctaOutline {
+  composes: ctaPrimary;
+  background: transparent;
+  color: var(--accent-deep);
+}
+.ctaOutline:hover { background: var(--accent); color: var(--paper); }
+.ctaQuiet {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.2em;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.ctaQuiet small { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: none; color: var(--muted); }
+.ctaQuiet:hover span { color: var(--accent-deep); }
+
+/* ------------------------------------------------------------- sections */
+.section {
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: 7rem clamp(1rem, 3.5vw, 3.125rem);
+}
+.sectionTint {
+  max-width: none;
+  background: var(--paper-2);
+}
+.sectionTint > * { max-width: 96rem; margin-left: auto; margin-right: auto; }
+.sectionHead { text-align: center; margin-bottom: 4rem; }
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.8rem, 3.4vw, 3.2rem);
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  margin: 0.6rem 0 0;
+  text-wrap: balance;
+}
+.lead { font-size: clamp(1rem, 1.3vw, 1.3rem); line-height: 1.55; color: var(--ink-soft); margin: 1.5rem 0; }
+.more { text-align: center; margin-top: 3.5rem; font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.3em; text-transform: uppercase; }
+
+/* steps */
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 3rem 2.5rem;
+  counter-reset: step;
+}
+.step { position: relative; padding-top: 1rem; }
+.step::before {
+  counter-increment: step;
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
+.stepIcon { display: block; width: 3.2rem; height: 3.2rem; color: var(--accent-deep); margin-bottom: 1.4rem; }
+.stepIcon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+.step h3 { font-family: var(--font-display); font-weight: 500; font-size: 1.5rem; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 0.6rem; }
+.step p { font-size: 1.05rem; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+
+/* wines */
+.wines {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 3rem 2.5rem;
+}
+.wine { display: flex; flex-direction: column; align-items: flex-start; }
+.wineArt { width: 100%; color: var(--ink); margin-bottom: 1.4rem; }
+.wineBottle { width: 60%; margin: 0 auto; display: block; }
+.wineKind { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); }
+.wineName { font-family: var(--font-display); font-weight: 500; font-size: 1.35rem; letter-spacing: 0.08em; line-height: 1.25; margin: 0.3rem 0 0.4rem; text-wrap: balance; }
+.wineMeta { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 1rem; }
+.wineCta { font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent-deep); }
+.wineCta:hover { color: var(--ink); }
+
+/* wineries */
+.wineries { display: grid; grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: center; }
+.wineriesMap { position: relative; color: var(--ink); border: 1px solid var(--hairline); padding: 1.5rem; background: var(--paper); }
+.wineriesSvg { width: 100%; height: auto; display: block; }
+.mapCaption {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--paper);
+  padding: 0.3em 0.6em 0.2em 0.9em;
+}
+.wineryList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1.5rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+}
+.wineryList li { border-bottom: 1px solid var(--hairline-2); padding-bottom: 0.4rem; }
+.b2bQuestion { font-family: var(--font-display); font-style: italic; font-size: 1.15rem; color: var(--ink-soft); margin: 0 0 0.5rem; }
+
+/* trust */
+.trust {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3rem;
+}
+.trust li { border-top: 1px solid var(--ink); padding-top: 1.4rem; }
+.trust h3 { font-family: var(--font-display); font-weight: 500; font-size: 1.4rem; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 0.7rem; }
+.trust p { font-size: 1.05rem; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+
+/* b2b strip */
+.b2b {
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: 5rem clamp(1rem, 3.5vw, 3.125rem) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+.b2b h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.4rem, 2.4vw, 2.2rem); letter-spacing: 0.04em; margin: 0 0 0.6rem; text-wrap: balance; }
+.b2b p { font-size: 1.05rem; color: var(--ink-soft); margin: 0; max-width: 40em; }
+
+@media (max-width: 1023px) {
+  .steps, .wines { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wineries { grid-template-columns: 1fr; gap: 3rem; }
+  .trust { grid-template-columns: 1fr; gap: 2rem; }
+}
+@media (max-width: 767px) {
+  .hero { min-height: 80vh; }
+  .heroMap { inset: -20% -40%; opacity: 0.26; }
+  .heroInner { padding: 4rem 1rem 3rem; }
+  .section { padding: 4.5rem 1rem; }
+  .steps { grid-template-columns: 1fr; gap: 2.5rem; }
+  .wines { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 1.2rem; }
+  .wineryList { grid-template-columns: 1fr; }
+  .b2b { flex-direction: column; align-items: flex-start; padding-top: 3.5rem; }
+}
