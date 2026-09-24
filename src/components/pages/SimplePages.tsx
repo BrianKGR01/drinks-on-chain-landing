@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSyncExternalStore } from "react";
 import { DiscoverFooter } from "@/components/pages/DiscoverFooter";
 import { PageShell } from "@/components/pages/PageShell";
 import { MapPreview } from "@/components/site/MapPreview";
@@ -11,6 +12,9 @@ import { LINKS } from "@/lib/links";
 import { useExperience } from "@/store/experience";
 import styles from "./Editorial.module.css";
 import simple from "./SimplePages.module.css";
+
+const noop = () => () => {};
+const useMounted = () => useSyncExternalStore(noop, () => true, () => false);
 
 export function HowItWorksPage() {
   const lang = useExperience((s) => s.lang);
@@ -55,6 +59,7 @@ export function WineriesPage() {
   const lang = useExperience((s) => s.lang);
   const t = SITE[lang];
   const p = t.pages.wineries;
+  const mounted = useMounted();
   const wineries = Array.from(new Set(Object.values(ZONES).flatMap((z) => z.facts.wineries))).filter((w) => !/CENAVIT/i.test(w));
   return (
     <PageShell eyebrow={p.title}>
@@ -67,7 +72,7 @@ export function WineriesPage() {
       <div className={simple.maps}>
         {VILLAGES.map((v) => (
           <figure key={v.id} className={simple.mapCard}>
-            <MapPreview village={v} title={v.name[lang]} className={simple.mapSvg} />
+            {mounted ? <MapPreview village={v} title={v.name[lang]} className={simple.mapSvg} /> : <div className={simple.mapSvg} style={{ aspectRatio: "1" }} />}
             <figcaption>
               <span>{v.name[lang]}</span>
               <span>{v.parcels.length} {lang === "es" ? "zonas" : "zones"}</span>

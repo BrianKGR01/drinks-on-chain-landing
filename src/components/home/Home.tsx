@@ -149,7 +149,7 @@ export function Home() {
       <section className={styles.section} id="bodegas">
         <div className={styles.wineries}>
           <div className={styles.wineriesMap}>
-            <MapPreview village={CINTI} className={styles.wineriesSvg} title={CINTI.name[lang]} />
+            {mounted ? <MapPreview village={CINTI} className={styles.wineriesSvg} title={CINTI.name[lang]} /> : <div className={styles.wineriesSvg} style={{ aspectRatio: "1" }} />}
             <span className={styles.mapCaption}>{CINTI.region[lang]}</span>
           </div>
           <div className={styles.wineriesText}>
