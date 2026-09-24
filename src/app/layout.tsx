@@ -3,6 +3,7 @@ import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
 import { AgeGate } from "@/components/intro/AgeGate";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { AGE_GATE_BOOT_SCRIPT } from "@/store/experience";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -44,7 +45,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${cormorant.variable} ${garamond.variable}`}>
+    <html lang="es" className={`${cormorant.variable} ${garamond.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Marks the document before first paint when the age gate was already passed this session. */}
+        <script dangerouslySetInnerHTML={{ __html: AGE_GATE_BOOT_SCRIPT }} />
+      </head>
       <body className="paper-grain">
         <a href="#content" className="skip-link">
           Saltar al contenido

@@ -13,6 +13,8 @@ interface MapCanvasProps {
   revealMs?: number;
   /** Extra world margin around the extent. */
   margin?: number;
+  /** Begin drawing (false keeps the canvas blank). */
+  start?: boolean;
 }
 
 type Step = (ctx: CanvasRenderingContext2D) => void;
@@ -22,12 +24,12 @@ type Step = (ctx: CanvasRenderingContext2D) => void;
  * transforms costs nothing per frame (it is composited on the GPU), unlike
  * an SVG with hundreds of paths and pattern fills.
  */
-export function MapCanvas({ village, className, ink = "#2b2622", revealMs = 2600, margin = 80 }: MapCanvasProps) {
+export function MapCanvas({ village, className, ink = "#2b2622", revealMs = 2600, margin = 80, start = true }: MapCanvasProps) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = ref.current;
-    if (!canvas) return;
+    if (!canvas || !start) return;
     const prims = buildMapPrimitives(village);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let raf = 0;
@@ -36,7 +38,7 @@ export function MapCanvas({ village, className, ink = "#2b2622", revealMs = 2600
     const draw = () => {
       cancelAnimationFrame(raf);
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.25); // half the texture of a 2x canvas
       const w = Math.max(1, Math.round(rect.width * dpr));
       const h = Math.max(1, Math.round(rect.height * dpr));
       if (canvas.width !== w || canvas.height !== h) {
@@ -179,7 +181,7 @@ export function MapCanvas({ village, className, ink = "#2b2622", revealMs = 2600
       cancelAnimationFrame(raf);
       ro.disconnect();
     };
-  }, [village, ink, revealMs, margin]);
+  }, [village, ink, revealMs, margin, start]);
 
   return <canvas ref={ref} className={className} aria-hidden="true" />;
 }

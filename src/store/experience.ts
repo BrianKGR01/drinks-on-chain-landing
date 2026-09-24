@@ -4,9 +4,9 @@ import { create } from "zustand";
 import type { Lang } from "@/lib/scene-contract";
 
 /**
- * Site-wide UI state for the main landing. Kept deliberately small: language,
- * whether the age gate was passed, and the mobile menu. Named `useExperience`
- * so the components shared with the bodegas site work unchanged.
+ * Site-wide UI state for the main landing: language, whether the age gate
+ * was passed, and the mobile menu. Named `useExperience` so the components
+ * shared with the bodegas site work unchanged.
  */
 interface ExperienceState {
   lang: Lang;
@@ -17,7 +17,8 @@ interface ExperienceState {
   toggleMenu: (open?: boolean) => void;
 }
 
-const GATE_KEY = "doc-age-ok";
+/** Session-scoped: a refresh does not ask again, a new visit does. */
+export const GATE_KEY = "doc-age-ok";
 
 export const useExperience = create<ExperienceState>((set) => ({
   lang: "es",
@@ -26,7 +27,8 @@ export const useExperience = create<ExperienceState>((set) => ({
   setLang: (lang) => set({ lang }),
   enter: () => {
     try {
-      window.localStorage.setItem(GATE_KEY, String(Date.now()));
+      window.sessionStorage.setItem(GATE_KEY, "1");
+      document.documentElement.setAttribute("data-age-ok", "1");
     } catch {
       /* storage unavailable */
     }
@@ -35,13 +37,17 @@ export const useExperience = create<ExperienceState>((set) => ({
   toggleMenu: (open) => set((s) => ({ menuOpen: open ?? !s.menuOpen })),
 }));
 
-/** True when the visitor confirmed their age in the last 30 days. */
+/** True when the visitor confirmed their age earlier in this browser session. */
 export function hasRecentAgeConfirmation(): boolean {
   try {
-    const raw = window.localStorage.getItem(GATE_KEY);
-    if (!raw) return false;
-    return Date.now() - Number(raw) < 30 * 24 * 60 * 60 * 1000;
+    return window.sessionStorage.getItem(GATE_KEY) === "1";
   } catch {
     return false;
   }
 }
+
+/**
+ * Inline script for <head>: marks the document before first paint when the
+ * gate was already passed, so CSS can hide it without a flash.
+ */
+export const AGE_GATE_BOOT_SCRIPT = `try{if(sessionStorage.getItem("${GATE_KEY}")==="1")document.documentElement.setAttribute("data-age-ok","1")}catch(e){}`;

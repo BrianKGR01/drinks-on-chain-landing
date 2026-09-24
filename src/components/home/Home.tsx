@@ -6,6 +6,7 @@ import { BottleIllustration } from "@/components/ui/InkIllustrations";
 import { InkPhoto } from "@/components/ui/InkPhoto";
 import { MapCanvas } from "@/components/site/MapCanvas";
 import { MapPreview } from "@/components/site/MapPreview";
+import { HeroVine } from "@/components/home/HeroVine";
 import { VineRows } from "@/components/home/VineRows";
 import { IMAGES } from "@/content/images";
 import { getParcelContent } from "@/content/parcels";
@@ -13,6 +14,7 @@ import { SITE } from "@/content/site-i18n";
 import { TARIJA, CINTI, VILLAGES } from "@/content/villages";
 import { ZONES } from "@/content/zones";
 import { LINKS } from "@/lib/links";
+import { useEntered } from "@/lib/use-entered";
 import { useExperience } from "@/store/experience";
 import styles from "./Home.module.css";
 
@@ -64,6 +66,7 @@ export function Home() {
   const lang = useExperience((s) => s.lang);
   const t = SITE[lang];
   const mounted = useMounted();
+  const entered = useEntered();
 
   const featured = FEATURED.map((id) => {
     for (const v of VILLAGES) {
@@ -80,13 +83,16 @@ export function Home() {
   return (
     <main id="content">
       {/* ------------------------------------------------------------ hero */}
-      <section className={styles.hero}>
+      <section className={`${styles.hero} ${entered ? styles.revealed : ""}`}>
         <div className={styles.heroMap} aria-hidden="true">
-          {mounted ? <MapCanvas village={TARIJA} className={styles.heroCanvas} /> : null}
+          {mounted ? <MapCanvas village={TARIJA} className={styles.heroCanvas} start={entered} /> : null}
         </div>
         <div className={styles.heroVeil} aria-hidden="true" />
+        <div className={styles.heroVine} aria-hidden="true">
+          <HeroVine draw={entered} />
+        </div>
         <div className={styles.heroInner}>
-          <p className="small-heading">{t.hero.eyebrow}</p>
+          <p className={`small-heading ${styles.heroEyebrow}`}>{t.hero.eyebrow}</p>
           <h1 className={styles.heroTitle}>{t.hero.title}</h1>
           <p className={styles.heroLead}>{t.hero.lead}</p>
           <div className={styles.heroActions}>

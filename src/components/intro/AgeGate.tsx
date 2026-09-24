@@ -1,25 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { GlassBottleOrnament } from "@/components/intro/GlassBottleOrnament";
 import { VineOrnament } from "@/components/intro/VineOrnament";
 import { LetterSplit } from "@/components/ui/LetterSplit";
 import { LANGS, UI } from "@/content/i18n";
-import { hasRecentAgeConfirmation, useExperience } from "@/store/experience";
+import { useEntered } from "@/lib/use-entered";
+import { useExperience } from "@/store/experience";
 import styles from "./AgeGate.module.css";
 
 const LEAVE_MS = 900;
-
-const subscribe = (cb: () => void) => useExperience.subscribe(cb);
-/** True when the visitor already entered (this session or in the last 30 days). Server snapshot: false. */
-const useConfirmed = () =>
-  useSyncExternalStore(
-    subscribe,
-    () => useExperience.getState().entered || hasRecentAgeConfirmation(),
-    () => false,
-  );
 
 /**
  * Full-screen age confirmation. The entrance choreography is pure CSS
@@ -30,7 +22,7 @@ export function AgeGate() {
   const lang = useExperience((s) => s.lang);
   const setLang = useExperience((s) => s.setLang);
   const enter = useExperience((s) => s.enter);
-  const confirmed = useConfirmed();
+  const confirmed = useEntered();
   const t = UI[lang];
 
   const [leaving, setLeaving] = useState(false);
@@ -54,7 +46,7 @@ export function AgeGate() {
 
   return (
     <div
-      className={`${styles.intro} ${leaving ? styles.leaving : ""}`}
+      className={`gate-root ${styles.intro} ${leaving ? styles.leaving : ""}`}
       role="dialog"
       aria-modal="true"
       aria-label={t.ageGateAria}
