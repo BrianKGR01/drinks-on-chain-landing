@@ -1,8 +1,10 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
 import { AgeGate } from "@/components/intro/AgeGate";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 import { AGE_GATE_BOOT_SCRIPT } from "@/store/experience";
 import "./globals.css";
 
@@ -23,17 +25,20 @@ const garamond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: { default: "Drinks on Chain", template: "%s · Drinks on Chain" },
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
   description:
     "Vinos y singanis de altura de Bolivia, verificados de la parcela a la copa. Adquiérelos a precio de bodega, sigue su elaboración y retíralos cuando quieras.",
-  applicationName: "Drinks on Chain",
+  applicationName: SITE_NAME,
   keywords: ["vino boliviano", "singani", "Tarija", "Valle de Cinti", "trazabilidad", "bodegas", "preventa de vino"],
   openGraph: {
-    title: "Drinks on Chain",
-    description: "Cada botella, con su lugar y su historia.",
+    title: SITE_NAME,
+    description: SITE_TAGLINE,
+    siteName: SITE_NAME,
     type: "website",
     locale: "es_BO",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {
@@ -58,6 +63,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         {children}
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );

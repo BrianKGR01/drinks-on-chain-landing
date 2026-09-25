@@ -74,7 +74,7 @@ const es = {
     forWineries: "Para bodegas",
     forPickup: "Puntos de venta",
     responsible: "Consuma con moderación. Venta prohibida a menores de 18 años.",
-    madeBy: "Hecho por Debro Solutions",
+    madeBy: "© 2026 Drinks on Chain · Tarija, Bolivia",
   },
   pages: {
     how: {
@@ -151,7 +151,7 @@ const en: typeof es = {
     more: "How the technology works",
   },
   b2b: { title: "Do you make wine or singani? Do you run a wine shop or a cellar?", text: "The network is built with wineries that record their lots and points that deliver them. Learn how it works and apply.", cta: "For wineries and pick-up points" },
-  footer: { explore: "Explore", network: "The network", legal: "Legal", tech: "Technology", contact: "Contact", privacy: "Privacy", legalNotice: "Legal notice", forWineries: "For wineries", forPickup: "Pick-up points", responsible: "Drink responsibly. Not for sale to under-18s.", madeBy: "Made by Debro Solutions" },
+  footer: { explore: "Explore", network: "The network", legal: "Legal", tech: "Technology", contact: "Contact", privacy: "Privacy", legalNotice: "Legal notice", forWineries: "For wineries", forPickup: "Pick-up points", responsible: "Drink responsibly. Not for sale to under-18s.", madeBy: "© 2026 Drinks on Chain · Tarija, Bolivia" },
   pages: {
     how: {
       title: "How it works",

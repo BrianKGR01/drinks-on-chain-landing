@@ -11,8 +11,8 @@ import { VineRows } from "@/components/home/VineRows";
 import { IMAGES } from "@/content/images";
 import { getParcelContent } from "@/content/parcels";
 import { SITE } from "@/content/site-i18n";
+import { NETWORK_COPY, WINERIES } from "@/content/network";
 import { TARIJA, CINTI, VILLAGES } from "@/content/villages";
-import { ZONES } from "@/content/zones";
 import { LINKS } from "@/lib/links";
 import { useEntered } from "@/lib/use-entered";
 import { useExperience } from "@/store/experience";
@@ -76,16 +76,17 @@ export function Home() {
     return null;
   }).filter((x): x is NonNullable<typeof x> => x !== null);
 
-  const wineries = Array.from(new Set(Object.values(ZONES).flatMap((z) => z.facts.wineries)))
-    .filter((w) => !/CENAVIT/i.test(w))
-    .slice(0, 6);
+  const network = NETWORK_COPY[lang];
 
   return (
     <main id="content">
       {/* ------------------------------------------------------------ hero */}
       <section className={`${styles.hero} ${entered ? styles.revealed : ""}`}>
-        <div className={styles.heroMap} aria-hidden="true">
-          {mounted ? <MapCanvas village={TARIJA} className={styles.heroCanvas} start={entered} /> : null}
+        {/* data-hero-map lets the age gate turn into a translucent veil over this map (see AgeGate.module.css) */}
+        <div className={styles.heroStage} data-hero-map aria-hidden="true">
+          <div className={styles.heroMap}>
+            {mounted ? <MapCanvas village={TARIJA} className={styles.heroCanvas} revealMs={4200} /> : null}
+          </div>
         </div>
         <div className={styles.heroVeil} aria-hidden="true" />
         <div className={styles.heroVine} aria-hidden="true">
@@ -174,13 +175,20 @@ export function Home() {
             <p className="small-heading">{t.wineries.eyebrow}</p>
             <h2 className={styles.h2}>{t.wineries.title}</h2>
             <p className={styles.lead}>{t.wineries.text}</p>
+            {/* the test network of the ecosystem (docs/08), never real producers presented as partners */}
             <ul className={styles.wineryList}>
-              {wineries.map((w) => (
-                <li key={w}>{w}</li>
+              {WINERIES.map((w) => (
+                <li key={w.id}>
+                  <a href={LINKS.bodegasProfile(w.slug)} className={styles.wineryLink}>
+                    {w.name}
+                  </a>
+                  <span className={styles.wineryStatus}>{network.status[w.status]}</span>
+                </li>
               ))}
             </ul>
+            <p className={styles.networkNote}>{network.testNotice}</p>
             <p className={styles.b2bQuestion}>{t.wineries.b2bQuestion}</p>
-            <div className={styles.heroActions}>
+            <div className={styles.actions}>
               <a href={LINKS.bodegas} className={styles.ctaPrimary}>
                 {t.wineries.cta}
               </a>

@@ -4,6 +4,14 @@
   z-index: 20;
   background: color-mix(in srgb, var(--paper) 94%, transparent);
   border-bottom: 1px solid var(--hairline-2);
+  transition: opacity 0.9s var(--ease-out) 0.7s, transform 0.9s var(--ease-out) 0.7s;
+}
+/* Under the translucent age gate the header would show through: it waits,
+   then settles in once the veil lifts. */
+:global(html:not([data-age-ok]):has(.gate-root)) .header {
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+  transition: none;
 }
 .inner {
   max-width: 1536px;
@@ -47,7 +55,7 @@
   letter-spacing: 0.3em;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-.enter:hover { background-color: var(--accent); color: var(--paper); }
+.enter:hover { background-color: var(--accent-deep); color: var(--paper); }
 
 .burger { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; }
 .burgerLines { display: flex; flex-direction: column; gap: 6px; width: 22px; }
