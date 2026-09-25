@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { GlassBottleOrnament } from "@/components/intro/GlassBottleOrnament";
 import { VineOrnament } from "@/components/intro/VineOrnament";
 import { LetterSplit } from "@/components/ui/LetterSplit";
 import { LANGS, UI } from "@/content/i18n";
+import { inertOutside } from "@/lib/inert-outside";
 import { useEntered } from "@/lib/use-entered";
 import { useExperience } from "@/store/experience";
 import styles from "./AgeGate.module.css";
@@ -61,10 +62,18 @@ export function AgeGate() {
     };
   }, [visible, leaving]);
 
+  // Modal for real: while the gate is up, nothing behind it takes focus.
+  const rootRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!visible || leaving || !rootRef.current) return;
+    return inertOutside(rootRef.current);
+  }, [visible, leaving]);
+
   if (!visible) return null;
 
   return (
     <div
+      ref={rootRef}
       className={`gate-root ${styles.intro} ${leaving ? `gate-leaving ${styles.leaving}` : ""}`}
       role="dialog"
       aria-modal="true"
