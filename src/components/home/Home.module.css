@@ -106,7 +106,8 @@
   max-width: 34em;
   color: var(--ink-soft);
 }
-.heroActions {
+.heroActions,
+.actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;

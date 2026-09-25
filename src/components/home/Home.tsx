@@ -183,7 +183,7 @@ export function Home() {
               ))}
             </ul>
             <p className={styles.b2bQuestion}>{t.wineries.b2bQuestion}</p>
-            <div className={styles.heroActions}>
+            <div className={styles.actions}>
               <a href={LINKS.bodegas} className={styles.ctaPrimary}>
                 {t.wineries.cta}
               </a>
