@@ -20,7 +20,10 @@
     radial-gradient(ellipse 40% 36% at 50% 50%, color-mix(in srgb, var(--paper) 90%, transparent) 0%, color-mix(in srgb, var(--paper) 60%, transparent) 75%, transparent 100%),
     color-mix(in srgb, var(--paper) 58%, transparent);
 }
-.intro.leaving { opacity: 0; pointer-events: none; }
+/* the lifting gate keeps swallowing clicks until it unmounts, so a double
+   click on "Entrar" never lands on whatever sits underneath */
+.intro.leaving { opacity: 0; }
+.leaving .enter, .leaving .nav { pointer-events: none; }
 .leaving .logo, .leaving .content, .leaving .enter, .leaving .nav, .leaving .ornament {
   animation: none;
   opacity: 0;
