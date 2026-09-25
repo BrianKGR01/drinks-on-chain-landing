@@ -54,6 +54,11 @@ Convenciones: trabajo en `dev`, Conventional Commits, PR `dev → main` al cerra
 - [x] 7.2 Prueba manual en móvil y escritorio, sin errores de consola. · 25-09-2026
 - [ ] 7.3 PR `dev → main` con capturas.
 
+## Correcciones tras la revisión del cliente (25-09-2026)
+
+- [x] `/vinos` en móvil: las flechas ya no se salen de la pantalla junto a "Adquirir" y "Descubrir" · 25-09-2026
+- [x] Vercel Web Analytics activado por el cliente; las visitas llegan (`/view` → 200) · 25-09-2026
+
 ## Mediciones (Lighthouse 12, móvil, build de producción local, 25-09-2026)
 
 | Página | Rendimiento | Accesibilidad | Buenas prácticas | SEO | Notas |
