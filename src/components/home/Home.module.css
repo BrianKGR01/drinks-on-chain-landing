@@ -361,7 +361,8 @@
 }
 @media (max-width: 767px) {
   .hero { min-height: 80vh; }
-  .heroMap { inset: -20% -40%; opacity: 0.26; }
+  .heroMap { inset: -20% -40%; opacity: 0.75; }
+  .revealed .heroMap { opacity: 0.26; }
   .heroVine { width: 92vw; height: 46%; opacity: 0.55; }
   .heroInner { padding: 64px 16px 48px; }
   .section { padding: 72px 16px; }
