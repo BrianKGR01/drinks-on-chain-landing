@@ -55,7 +55,7 @@
   letter-spacing: 0.3em;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-.enter:hover { background-color: var(--accent); color: var(--paper); }
+.enter:hover { background-color: var(--accent-deep); color: var(--paper); }
 
 .burger { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; }
 .burgerLines { display: flex; flex-direction: column; gap: 6px; width: 22px; }

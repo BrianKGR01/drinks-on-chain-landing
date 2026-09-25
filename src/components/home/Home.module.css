@@ -118,8 +118,8 @@
   display: inline-flex;
   align-items: center;
   padding: 15px 34px 13px 38px;
-  border: 1px solid var(--accent);
-  background-color: var(--accent);
+  border: 1px solid var(--accent-deep);
+  background-color: var(--accent-deep); /* paper on deep gold: AA contrast */
   color: var(--paper);
   font-family: var(--font-display);
   font-size: 13px;
@@ -133,7 +133,7 @@
   background-color: transparent;
   color: var(--accent-deep);
 }
-.ctaOutline:hover { background-color: var(--accent); color: var(--paper); }
+.ctaOutline:hover { background-color: var(--accent-deep); color: var(--paper); }
 .ctaQuiet {
   display: inline-flex;
   flex-direction: column;
