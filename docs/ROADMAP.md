@@ -58,6 +58,7 @@ Convenciones: trabajo en `dev`, Conventional Commits, PR `dev → main` al cerra
 
 - [x] `/vinos` en móvil: las flechas ya no se salen de la pantalla junto a "Adquirir" y "Descubrir" · 25-09-2026
 - [x] Vercel Web Analytics activado por el cliente; las visitas llegan (`/view` → 200) · 25-09-2026
+- [x] Menú móvil igual al del sitio de bodegas (pantalla completa, "Cerrar", indicador dorado, Escape y foco) · 25-09-2026
 
 ## Mediciones (Lighthouse 12, móvil, build de producción local, 25-09-2026)
 
