@@ -117,7 +117,19 @@
 @media (max-width: 767px) { .entries { font-size: 0.78125rem; margin-bottom: 1em; } }
 
 .controls { display: flex; align-items: center; gap: 1.5rem; }
-@media (max-width: 767px) { .controls { justify-content: space-between; } }
+/* phones: arrows pinned at both ends, the two links share the middle and may
+   wrap; nothing shrinks or leaves the screen */
+@media (max-width: 767px) {
+  .controls {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 0.5rem;
+  }
+  .controls .discover { text-align: center; font-size: 0.8125rem; letter-spacing: 0.22em; padding-left: 0.22em; }
+}
+@media (max-width: 359px) {
+  .controls .discover { font-size: 0.75rem; letter-spacing: 0.12em; padding-left: 0.12em; }
+}
 
 .discover {
   font-family: var(--font-display);
@@ -151,7 +163,7 @@
   font-family: var(--font-body);
 }
 .left { transform: rotate(180deg); }
-@media (max-width: 767px) { .arrow { display: inline-flex; } }
+@media (max-width: 767px) { .arrow { display: inline-flex; flex: none; width: 2.75rem; height: 2.75rem; } }
 
 .notice {
   position: fixed;
