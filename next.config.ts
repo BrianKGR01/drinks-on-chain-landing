@@ -6,13 +6,14 @@ const isDev = process.env.NODE_ENV === "development";
  * Content Security Policy without a nonce: every page is prerendered and the
  * site holds no user data, while a nonce would force each page to render on
  * the server. Hence `'unsafe-inline'` for scripts (Next.js bootstrap and the
- * age-gate boot script) and no external origin anywhere. Vercel Web Analytics
+ * age-gate boot script) and no external origin in production. Vercel Web Analytics
  * is same-origin (`/_vercel/insights/*`), covered by `'self'`.
- * `'unsafe-eval'` is only needed by React's dev tooling.
+ * Development only: `'unsafe-eval'` for React's dev tooling and the debug
+ * build of the analytics script, which is served from va.vercel-scripts.com.
  */
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval' https://va.vercel-scripts.com" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
