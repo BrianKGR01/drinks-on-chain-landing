@@ -4,13 +4,17 @@ import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import { BottleIllustration } from "@/components/ui/InkIllustrations";
 import { InkPhoto } from "@/components/ui/InkPhoto";
+import { MapCanvas } from "@/components/site/MapCanvas";
 import { MapPreview } from "@/components/site/MapPreview";
+import { HeroVine } from "@/components/home/HeroVine";
+import { VineRows } from "@/components/home/VineRows";
 import { IMAGES } from "@/content/images";
 import { getParcelContent } from "@/content/parcels";
 import { SITE } from "@/content/site-i18n";
 import { TARIJA, CINTI, VILLAGES } from "@/content/villages";
 import { ZONES } from "@/content/zones";
 import { LINKS } from "@/lib/links";
+import { useEntered } from "@/lib/use-entered";
 import { useExperience } from "@/store/experience";
 import styles from "./Home.module.css";
 
@@ -19,6 +23,15 @@ const FEATURED = ["t02", "t07", "t13", "c01"] as const;
 const noop = () => () => {};
 /** True after hydration; false during SSR and the first client render. */
 const useMounted = () => useSyncExternalStore(noop, () => true, () => false);
+
+const TRUST_ICONS = [
+  // seal / ledger
+  <svg key="seal" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5l5 4 6-1 2 6 6 2-1 6 4 5-4 5 1 6-6 2-2 6-6-1-5 4-5-4-6 1-2-6-6-2 1-6-4-5 4-5-1-6 6-2 2-6 6 1z" /><path d="M16 24l6 6 11-12" /></svg>,
+  // numbered bottles
+  <svg key="edition" viewBox="0 0 48 48" aria-hidden="true"><path d="M12 6h6v4h-6zM13 10v6c0 2-4 4-4 8v16c0 1 1 2 2 2h10c1 0 2-1 2-2V24c0-4-4-6-4-8v-6" /><path d="M30 6h6v4h-6zM31 10v6c0 2-4 4-4 8v16c0 1 1 2 2 2h10c1 0 2-1 2-2V24c0-4-4-6-4-8v-6" /><path d="M11 30h10M29 30h10" /></svg>,
+  // key + hand
+  <svg key="pickup" viewBox="0 0 48 48" aria-hidden="true"><circle cx="17" cy="19" r="8" /><circle cx="17" cy="19" r="2.5" /><path d="M23 24l14 14M31 32l4-4M35 36l4-4" /><path d="M6 40c6-6 12-8 18-4" /></svg>,
+];
 
 const ICONS = {
   scan: (
@@ -53,6 +66,7 @@ export function Home() {
   const lang = useExperience((s) => s.lang);
   const t = SITE[lang];
   const mounted = useMounted();
+  const entered = useEntered();
 
   const featured = FEATURED.map((id) => {
     for (const v of VILLAGES) {
@@ -69,12 +83,16 @@ export function Home() {
   return (
     <main id="content">
       {/* ------------------------------------------------------------ hero */}
-      <section className={styles.hero}>
+      <section className={`${styles.hero} ${entered ? styles.revealed : ""}`}>
         <div className={styles.heroMap} aria-hidden="true">
-          {mounted ? <MapPreview village={TARIJA} className={styles.heroSvg} /> : null}
+          {mounted ? <MapCanvas village={TARIJA} className={styles.heroCanvas} start={entered} /> : null}
+        </div>
+        <div className={styles.heroVeil} aria-hidden="true" />
+        <div className={styles.heroVine} aria-hidden="true">
+          <HeroVine draw={entered} />
         </div>
         <div className={styles.heroInner}>
-          <p className="small-heading">{t.hero.eyebrow}</p>
+          <p className={`small-heading ${styles.heroEyebrow}`}>{t.hero.eyebrow}</p>
           <h1 className={styles.heroTitle}>{t.hero.title}</h1>
           <p className={styles.heroLead}>{t.hero.lead}</p>
           <div className={styles.heroActions}>
@@ -97,7 +115,7 @@ export function Home() {
         </header>
         <ol className={styles.steps}>
           {t.how.steps.map((s, i) => (
-            <li key={s.title} className={styles.step}>
+            <li key={s.title} className={styles.step} tabIndex={0}>
               <span className={styles.stepIcon}>{[ICONS.scan, ICONS.discover, ICONS.acquire, ICONS.pickup][i]}</span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
@@ -149,7 +167,7 @@ export function Home() {
       <section className={styles.section} id="bodegas">
         <div className={styles.wineries}>
           <div className={styles.wineriesMap}>
-            <MapPreview village={CINTI} className={styles.wineriesSvg} title={CINTI.name[lang]} />
+            {mounted ? <MapPreview village={CINTI} className={styles.wineriesSvg} title={CINTI.name[lang]} /> : <div className={styles.wineriesSvg} style={{ aspectRatio: "1" }} />}
             <span className={styles.mapCaption}>{CINTI.region[lang]}</span>
           </div>
           <div className={styles.wineriesText}>
@@ -180,8 +198,9 @@ export function Home() {
           <p className="small-heading">{t.trust.eyebrow}</p>
         </header>
         <ul className={styles.trust}>
-          {t.trust.items.map((it) => (
-            <li key={it.title}>
+          {t.trust.items.map((it, i) => (
+            <li key={it.title} className={styles.trustItem} tabIndex={0}>
+              <span className={styles.trustIcon}>{TRUST_ICONS[i]}</span>
               <h3>{it.title}</h3>
               <p>{it.text}</p>
             </li>
@@ -196,13 +215,16 @@ export function Home() {
 
       {/* ----------------------------------------------------------- b2b */}
       <section className={styles.b2b}>
-        <div>
-          <h2>{t.b2b.title}</h2>
-          <p>{t.b2b.text}</p>
+        <VineRows className={styles.b2bRows} />
+        <div className={styles.b2bInner}>
+          <div>
+            <h2>{t.b2b.title}</h2>
+            <p>{t.b2b.text}</p>
+          </div>
+          <a href={LINKS.bodegas} className={styles.ctaOutline}>
+            {t.b2b.cta}
+          </a>
         </div>
-        <a href={LINKS.bodegas} className={styles.ctaOutline}>
-          {t.b2b.cta}
-        </a>
       </section>
     </main>
   );

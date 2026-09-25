@@ -60,9 +60,6 @@ export function SiteHeader() {
         </nav>
 
         <div className={styles.right}>
-          <a href={LINKS.bodegas} className={`${styles.b2b} underline-anim`}>
-            {t.b2b}
-          </a>
           <div className={styles.langs} role="group" aria-label="Idioma">
             {LANGS.map((code) => (
               <button key={code} type="button" className="underline-anim" aria-current={lang === code ? "true" : undefined} onClick={() => setLang(code)}>

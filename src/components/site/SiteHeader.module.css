@@ -2,103 +2,98 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  background: color-mix(in srgb, var(--paper) 86%, transparent);
-  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
   border-bottom: 1px solid var(--hairline-2);
 }
 .inner {
-  max-width: 96rem;
+  max-width: 1536px;
   margin: 0 auto;
-  padding: 1rem clamp(1rem, 3.5vw, 3.125rem);
+  padding: 14px clamp(16px, 3.5vw, 50px);
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 2rem;
+  gap: 32px;
 }
 .logo { transform: scale(0.72); transform-origin: left center; }
 
+/* Navigation sizes are in px on purpose: they must not shrink with the window. */
 .nav {
   display: flex;
   justify-content: center;
-  gap: 2.2rem;
+  gap: 36px;
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: 14px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
 }
 .right {
   display: flex;
   align-items: center;
-  gap: 1.6rem;
+  gap: 26px;
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 12px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
 }
-.b2b { color: var(--muted); white-space: nowrap; }
-.b2b:hover { color: var(--ink); }
-.langs { display: flex; gap: 0.8em; }
+.langs { display: flex; gap: 12px; }
 
 .enter {
   display: inline-flex;
   align-items: center;
-  padding: 0.55em 1.3em 0.5em 1.55em;
+  padding: 9px 20px 8px 24px;
   border: 1px solid var(--accent);
   color: var(--accent-deep);
+  font-size: 12px;
   letter-spacing: 0.3em;
-  transition: background 0.3s, color 0.3s;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
-.enter:hover { background: var(--accent); color: var(--paper); }
+.enter:hover { background-color: var(--accent); color: var(--paper); }
 
-.burger { display: none; width: 2.6rem; height: 2.6rem; align-items: center; justify-content: center; }
+.burger { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; }
 .burgerLines { display: flex; flex-direction: column; gap: 6px; width: 22px; }
-.burgerLines span { display: block; height: 1px; background: var(--ink); transition: transform 0.3s; }
+.burgerLines span { display: block; height: 1px; background: var(--ink); transition: transform 0.25s; }
 .burger[aria-expanded="true"] .burgerLines span:first-child { transform: translateY(3.5px) rotate(45deg); }
 .burger[aria-expanded="true"] .burgerLines span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
 
 .drawer {
   position: fixed;
   inset: 0;
-  top: 0;
   z-index: 15;
   background: var(--paper);
-  padding: 7rem clamp(1.5rem, 8vw, 4rem) 3rem;
+  padding: 110px clamp(24px, 8vw, 64px) 48px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s var(--ease-out), visibility 0s linear 0.5s;
+  transition: opacity 0.35s var(--ease-out), visibility 0s linear 0.35s;
 }
-.drawerOpen { opacity: 1; visibility: visible; transition: opacity 0.5s var(--ease-out), visibility 0s; }
+.drawerOpen { opacity: 1; visibility: visible; transition: opacity 0.35s var(--ease-out), visibility 0s; }
 .drawerNav { display: flex; flex-direction: column; gap: 0.2em; }
 .drawerLink {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 8vw, 3rem);
+  font-size: clamp(28px, 8vw, 44px);
   letter-spacing: 0.2em;
   line-height: 1.7;
   opacity: 0;
   transform: translateY(0.3em);
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
 }
 .drawerOpen .drawerLink { opacity: 1; transform: none; }
 .drawerFoot {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 24px;
   align-items: center;
   font-family: var(--font-display);
-  font-size: 0.8rem;
+  font-size: 13px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
 }
 
 @media (max-width: 1023px) {
-  .inner { grid-template-columns: auto auto; justify-content: space-between; gap: 1rem; }
-  .nav, .b2b, .right .langs, .right .enter { display: none; }
+  .inner { grid-template-columns: auto auto; justify-content: space-between; gap: 16px; }
+  .nav, .right .langs, .right .enter { display: none; }
   .burger { display: inline-flex; }
   .logo { transform: scale(0.62); }
-}
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .b2b { display: none; }
 }
