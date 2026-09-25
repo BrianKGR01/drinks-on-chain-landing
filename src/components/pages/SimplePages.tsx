@@ -6,8 +6,8 @@ import { DiscoverFooter } from "@/components/pages/DiscoverFooter";
 import { PageShell } from "@/components/pages/PageShell";
 import { MapPreview } from "@/components/site/MapPreview";
 import { SITE } from "@/content/site-i18n";
+import { NETWORK_COPY, WINERIES } from "@/content/network";
 import { VILLAGES } from "@/content/villages";
-import { ZONES } from "@/content/zones";
 import { LINKS } from "@/lib/links";
 import { useExperience } from "@/store/experience";
 import styles from "./Editorial.module.css";
@@ -60,7 +60,7 @@ export function WineriesPage() {
   const t = SITE[lang];
   const p = t.pages.wineries;
   const mounted = useMounted();
-  const wineries = Array.from(new Set(Object.values(ZONES).flatMap((z) => z.facts.wineries))).filter((w) => !/CENAVIT/i.test(w));
+  const network = NETWORK_COPY[lang];
   return (
     <PageShell eyebrow={p.title}>
       <header className={styles.contactHeader}>
@@ -81,10 +81,16 @@ export function WineriesPage() {
         ))}
       </div>
       <ul className={simple.wineryGrid}>
-        {wineries.map((w) => (
-          <li key={w}>{w}</li>
+        {WINERIES.map((w) => (
+          <li key={w.id}>
+            <a href={LINKS.bodegasProfile(w.slug)}>{w.name}</a>
+            <span className={simple.wineryMeta}>
+              {network.status[w.status]} · {w.town}
+            </span>
+          </li>
         ))}
       </ul>
+      <p className={simple.networkNote}>{network.testNotice}</p>
       <p className={simple.center}>
         <a href={LINKS.bodegas} className={simple.cta}>
           {p.cta}

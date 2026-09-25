@@ -289,7 +289,11 @@
   font-size: 15px;
   letter-spacing: 0.08em;
 }
-.wineryList li { border-bottom: 1px solid var(--hairline-2); padding-bottom: 6px; }
+.wineryList li { border-bottom: 1px solid var(--hairline-2); padding-bottom: 6px; display: flex; flex-direction: column; gap: 2px; }
+.wineryLink { transition: color 0.2s ease; }
+.wineryLink:hover { color: var(--accent-deep); }
+.wineryStatus { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); }
+.networkNote { font-size: 13px; font-style: italic; line-height: 1.5; color: var(--muted); margin: -16px 0 28px; max-width: 34em; }
 .b2bQuestion { font-family: var(--font-display); font-style: italic; font-size: 19px; color: var(--ink-soft); margin: 0 0 8px; }
 
 /* trust */

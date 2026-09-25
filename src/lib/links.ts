@@ -23,5 +23,5 @@ export const LINKS = {
   bodegas: join(BODEGAS),
   bodegasJoin: join(BODEGAS, "/unirse"),
   bodegasProfile: (slug: string) => join(BODEGAS, `/bodegas/${slug}`),
-  bodegasParcel: (village: string, parcel: string) => join(BODEGAS, `/parcelas/${village}/${parcel}`),
+  bodegasParcel: (village: string, parcel: string) => join(BODEGAS, `/valles/${village}/${parcel}`),
 } as const;

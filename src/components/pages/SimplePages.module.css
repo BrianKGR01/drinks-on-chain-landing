@@ -63,7 +63,10 @@
   font-size: 1rem;
   letter-spacing: 0.08em;
 }
-.wineryGrid li { border-bottom: 1px solid var(--hairline-2); padding-bottom: 0.5rem; }
+.wineryGrid li { border-bottom: 1px solid var(--hairline-2); padding-bottom: 0.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.wineryGrid a:hover { color: var(--accent-deep); }
+.wineryMeta { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
+.networkNote { max-width: 44rem; margin: 2rem auto 0; padding: 0 1.5rem; font-style: italic; font-size: 0.9rem; line-height: 1.5; color: var(--muted); text-align: center; }
 
 @media (max-width: 767px) {
   .steps, .maps { grid-template-columns: 1fr; gap: 2.2rem; }
