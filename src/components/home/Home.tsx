@@ -84,8 +84,11 @@ export function Home() {
     <main id="content">
       {/* ------------------------------------------------------------ hero */}
       <section className={`${styles.hero} ${entered ? styles.revealed : ""}`}>
-        <div className={styles.heroMap} aria-hidden="true">
-          {mounted ? <MapCanvas village={TARIJA} className={styles.heroCanvas} start={entered} /> : null}
+        {/* data-hero-map lets the age gate turn into a translucent veil over this map (see AgeGate.module.css) */}
+        <div className={styles.heroStage} data-hero-map aria-hidden="true">
+          <div className={styles.heroMap}>
+            {mounted ? <MapCanvas village={TARIJA} className={styles.heroCanvas} revealMs={4200} /> : null}
+          </div>
         </div>
         <div className={styles.heroVeil} aria-hidden="true" />
         <div className={styles.heroVine} aria-hidden="true">

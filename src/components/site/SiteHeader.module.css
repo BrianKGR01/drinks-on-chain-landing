@@ -4,6 +4,14 @@
   z-index: 20;
   background: color-mix(in srgb, var(--paper) 94%, transparent);
   border-bottom: 1px solid var(--hairline-2);
+  transition: opacity 0.9s var(--ease-out) 0.7s, transform 0.9s var(--ease-out) 0.7s;
+}
+/* Under the translucent age gate the header would show through: it waits,
+   then settles in once the veil lifts. */
+:global(html:not([data-age-ok]):has(.gate-root)) .header {
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+  transition: none;
 }
 .inner {
   max-width: 1536px;
