@@ -242,7 +242,15 @@ a { color: inherit; text-decoration: none; }
 .scene-parcel-label.is-visible { opacity: 1; transform: translateY(0); }
 
 /* Age gate already passed this session: hidden before first paint (see layout boot script) */
-html[data-age-ok] .gate-root { display: none; }
+html[data-age-ok] .gate-root:not(.gate-leaving) { display: none; }
+
+/* While the age gate is up (or lifting) the document does not scroll: the
+   visitor always enters at the hero. Pure CSS, so it holds before hydration. */
+html:not([data-age-ok]):has(.gate-root),
+html:has(.gate-leaving) {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
 
 /* Paper veil over the WebGL world: lifted once the visitor enters */
 .scene-veil { opacity: 0.86; transition: opacity 1.6s var(--ease-in-out) 0.4s; }
