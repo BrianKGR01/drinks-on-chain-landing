@@ -106,7 +106,7 @@ export function AgeGate() {
         </span>
       </button>
 
-      <nav className={styles.nav} aria-label="Idioma y avisos">
+      <nav className={styles.nav} aria-label={t.ageGateNav}>
         <div className={styles.langs}>
           {LANGS.map((code) => (
             <button
