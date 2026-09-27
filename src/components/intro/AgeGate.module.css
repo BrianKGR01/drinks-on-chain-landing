@@ -52,14 +52,18 @@
 }
 
 /* Logo ------------------------------------------------------------- */
+/* The wordmark is on screen from the first paint (it is the page's first
+   meaningful content, and the one Largest Contentful Paint can see: an
+   element that fades in from opacity 0 on the compositor is never reported)
+   and settles into place; the statement and "Entrar" keep their fade. */
 .logo {
   position: absolute;
   top: calc(20% - 3rem);
   left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  animation: gateFade 2s ease 0.2s forwards;
+  transform: translate3d(-50%, 0, 0);
+  animation: gateSettle 2s var(--ease-out) 0.2s backwards;
 }
+@keyframes gateSettle { from { transform: translate3d(-50%, -10px, 0); } }
 
 /* Statement -------------------------------------------------------- */
 .content {
@@ -89,12 +93,16 @@
 }
 
 /* Enter button ----------------------------------------------------- */
+/* A real 200 x 60 hit box centred on the same point as before (it used to
+   be a 0 x 0 anchor with the label hanging off it: clickable, but with no
+   size for touch, focus or automation). */
 .enter {
   position: absolute;
   bottom: 25%;
   left: 50%;
-  width: 0;
-  height: 0;
+  width: 200px;
+  height: 60px;
+  margin: 0 0 -30px -100px;
   cursor: pointer;
   text-transform: none;
   overflow: visible;
@@ -103,8 +111,8 @@
 
 .label {
   position: absolute;
-  left: -100px;
-  top: -30px;
+  left: 0;
+  top: 0;
   width: 200px;
   height: 60px;
   line-height: 60px;
@@ -126,7 +134,7 @@
 .enter:focus-visible .label { color: var(--ink); }
 
 /* The thin "descend" glyph under the label ------------------------ */
-.icon { position: absolute; top: 35px; left: 0; }
+.icon { position: absolute; top: 65px; left: 100px; }
 .bar1 {
   position: absolute;
   top: 0; left: 0;

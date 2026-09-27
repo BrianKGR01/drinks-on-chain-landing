@@ -71,8 +71,8 @@
   font-style: italic;
   letter-spacing: 0.05em;
   line-height: 1.4;
+  /* no extra opacity: muted on paper keeps AA (4.5:1) at this small size */
   color: var(--muted);
-  opacity: 0.8;
 }
 @media (max-width: 767px) {
   .notice { position: static; text-align: center; margin-top: 3rem; }

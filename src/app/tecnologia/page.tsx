@@ -7,7 +7,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/tecnologia",
   title: SITE.es.pages.tech.title,
   description:
-    "Trazabilidad registrada lote a lote por cada bodega, tokens de botella en la red Stellar y una billetera protegida con la biometría de tu teléfono, sin frase semilla. Qué datos guardamos y cuáles no.",
+    "Trazabilidad registrada lote a lote por cada bodega, un NFT por botella en la red Stellar y una billetera que la plataforma gestiona por ti, sin frase semilla ni criptomonedas. Qué datos guardamos y cuáles no.",
 });
 
 export default function Page() {

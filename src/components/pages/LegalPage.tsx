@@ -31,7 +31,7 @@ export function LegalPage() {
         <p>
           {es
             ? "Este sitio no utiliza cookies de seguimiento ni recoge datos personales. Los formularios de las plataformas de Drinks on Chain informan de su tratamiento en cada caso."
-            : "This site does not use tracking cookies nor collect personal data. Forms on the Drinks on Chain platforms disclose their processing case by case."}
+            : "This site does not use tracking cookies or collect personal data. Forms on the Drinks on Chain platforms disclose their processing case by case."}
         </p>
         <h3>{es ? "Consumo responsable" : "Responsible drinking"}</h3>
         <p>

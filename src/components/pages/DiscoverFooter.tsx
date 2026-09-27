@@ -25,7 +25,7 @@ export function DiscoverFooter({ href, caption, prepend }: DiscoverFooterProps) 
       <p className={styles.notice}>
         {lang === "es"
           ? "Consuma con moderación. Venta prohibida a menores de 18 años."
-          : "Drink responsibly. Not for sale to under-18s."}
+          : "Drink responsibly. Not for sale to anyone under 18."}
         <br />
         {t.madeBy}
       </p>

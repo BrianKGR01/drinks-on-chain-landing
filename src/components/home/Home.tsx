@@ -8,17 +8,37 @@ import { MapCanvas } from "@/components/site/MapCanvas";
 import { MapPreview } from "@/components/site/MapPreview";
 import { HeroVine } from "@/components/home/HeroVine";
 import { VineRows } from "@/components/home/VineRows";
-import { IMAGES } from "@/content/images";
-import { getParcelContent } from "@/content/parcels";
 import { SITE } from "@/content/site-i18n";
-import { NETWORK_COPY, WINERIES } from "@/content/network";
-import { TARIJA, CINTI, VILLAGES } from "@/content/villages";
+import { TARIJA, CINTI } from "@/content/villages";
 import { LINKS } from "@/lib/links";
+import type { Lang, Localized } from "@/lib/scene-contract";
 import { useEntered } from "@/lib/use-entered";
 import { useExperience } from "@/store/experience";
 import styles from "./Home.module.css";
 
-const FEATURED = ["t02", "t07", "t13", "c01"] as const;
+/** A wine of the "Vinos en la red" strip, prepared on the server (see app/page.tsx). */
+export interface FeaturedWine {
+  id: string;
+  slug: string;
+  kind: "vino" | "singani";
+  name: Record<Lang, string>;
+  parcelName: string;
+  villageName: Localized;
+  altitude: number;
+  photo?: { src: string; alt: Localized };
+}
+
+/** The wineries of the test network, with the copy of their status in both languages. */
+export interface NetworkSummary {
+  wineries: Array<{ id: string; slug: string; name: string; status: string }>;
+  status: Record<Lang, Record<string, string>>;
+  testNotice: Localized;
+}
+
+interface HomeProps {
+  featured: FeaturedWine[];
+  network: NetworkSummary;
+}
 
 const noop = () => () => {};
 /** True after hydration; false during SSR and the first client render. */
@@ -62,21 +82,16 @@ const ICONS = {
   ),
 };
 
-export function Home() {
+/**
+ * The home. Its data comes as props from the server component: wines and
+ * network are summarised there, so the long zone texts and winery stories
+ * never reach this page's JavaScript.
+ */
+export function Home({ featured, network }: HomeProps) {
   const lang = useExperience((s) => s.lang);
   const t = SITE[lang];
   const mounted = useMounted();
   const entered = useEntered();
-
-  const featured = FEATURED.map((id) => {
-    for (const v of VILLAGES) {
-      const p = v.parcels.find((x) => x.id === id);
-      if (p) return { village: v, parcel: p, content: getParcelContent(v, p, lang), photo: IMAGES.wines[id] };
-    }
-    return null;
-  }).filter((x): x is NonNullable<typeof x> => x !== null);
-
-  const network = NETWORK_COPY[lang];
 
   return (
     <main id="content">
@@ -137,21 +152,21 @@ export function Home() {
           <h2 className={styles.h2}>{t.wines.title}</h2>
         </header>
         <ul className={styles.wines}>
-          {featured.map(({ village, parcel, content, photo }) => (
-            <li key={parcel.id} className={styles.wine}>
+          {featured.map((w) => (
+            <li key={w.id} className={styles.wine}>
               <div className={styles.wineArt}>
-                {photo ? (
-                  <InkPhoto src={photo.src} alt={photo.alt[lang]} ratio={0.75} sizes="(max-width: 767px) 70vw, 20vw" />
+                {w.photo ? (
+                  <InkPhoto src={w.photo.src} alt={w.photo.alt[lang]} ratio={0.75} sizes="(max-width: 767px) 70vw, 20vw" />
                 ) : (
-                  <BottleIllustration kind={content.wine.kind} label={content.wine.name} sublabel={`${parcel.name} · ${parcel.altitude} m`} className={styles.wineBottle} />
+                  <BottleIllustration kind={w.kind} label={w.name[lang]} sublabel={`${w.parcelName} · ${w.altitude} m`} className={styles.wineBottle} />
                 )}
               </div>
-              <span className={styles.wineKind}>{content.wine.kind === "singani" ? "Singani" : lang === "es" ? "Vino" : "Wine"}</span>
-              <h3 className={styles.wineName}>{content.wine.name}</h3>
+              <span className={styles.wineKind}>{w.kind === "singani" ? "Singani" : lang === "es" ? "Vino" : "Wine"}</span>
+              <h3 className={styles.wineName}>{w.name[lang]}</h3>
               <p className={styles.wineMeta}>
-                {parcel.name} · {village.name[lang]} · {parcel.altitude} m
+                {w.parcelName} · {w.villageName[lang]} · {w.altitude} m
               </p>
-              <a href={LINKS.appWine(parcel.slug)} className={styles.wineCta}>
+              <a href={LINKS.appWine(w.slug)} className={styles.wineCta}>
                 {t.wines.know} →
               </a>
             </li>
@@ -168,7 +183,7 @@ export function Home() {
       <section className={styles.section} id="bodegas">
         <div className={styles.wineries}>
           <div className={styles.wineriesMap}>
-            {mounted ? <MapPreview village={CINTI} className={styles.wineriesSvg} title={CINTI.name[lang]} /> : <div className={styles.wineriesSvg} style={{ aspectRatio: "1" }} />}
+            <MapPreview village={CINTI} className={styles.wineriesSvg} title={CINTI.name[lang]} />
             <span className={styles.mapCaption}>{CINTI.region[lang]}</span>
           </div>
           <div className={styles.wineriesText}>
@@ -177,16 +192,16 @@ export function Home() {
             <p className={styles.lead}>{t.wineries.text}</p>
             {/* the test network of the ecosystem (docs/08), never real producers presented as partners */}
             <ul className={styles.wineryList}>
-              {WINERIES.map((w) => (
+              {network.wineries.map((w) => (
                 <li key={w.id}>
                   <a href={LINKS.bodegasProfile(w.slug)} className={styles.wineryLink}>
                     {w.name}
                   </a>
-                  <span className={styles.wineryStatus}>{network.status[w.status]}</span>
+                  <span className={styles.wineryStatus}>{network.status[lang][w.status]}</span>
                 </li>
               ))}
             </ul>
-            <p className={styles.networkNote}>{network.testNotice}</p>
+            <p className={styles.networkNote}>{network.testNotice[lang]}</p>
             <p className={styles.b2bQuestion}>{t.wineries.b2bQuestion}</p>
             <div className={styles.actions}>
               <a href={LINKS.bodegas} className={styles.ctaPrimary}>

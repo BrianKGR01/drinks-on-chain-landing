@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
   description:
-    "Vinos y singanis de altura de Bolivia, verificados de la parcela a la copa. Adquiérelos a precio de bodega, sigue su elaboración y retíralos cuando quieras.",
+    "Vinos y singanis de altura de Bolivia, verificados de la parcela a la copa. Adquiérelos directamente de la bodega, sigue su elaboración y recógelos en un punto de canje.",
   applicationName: SITE_NAME,
   keywords: ["vino boliviano", "singani", "Tarija", "Valle de Cinti", "trazabilidad", "bodegas", "preventa de vino"],
   openGraph: {

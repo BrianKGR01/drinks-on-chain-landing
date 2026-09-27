@@ -4,7 +4,7 @@
  */
 const PROD = process.env.NODE_ENV === "production";
 /** Marketplace: not deployed yet, so production falls back to the explainer page of this site. */
-const APP = process.env.NEXT_PUBLIC_URL_APP ?? (PROD ? "/como-funciona" : "http://localhost:3002");
+const APP = process.env.NEXT_PUBLIC_URL_APP ?? (PROD ? "/como-funciona" : "http://localhost:3005");
 /** Bodegas site on Vercel until the root domain exists. */
 const BODEGAS = process.env.NEXT_PUBLIC_URL_BODEGAS ?? (PROD ? "https://drinks-on-chain-bodegas.vercel.app" : "http://localhost:3000");
 
