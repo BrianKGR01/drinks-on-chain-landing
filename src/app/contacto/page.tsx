@@ -7,7 +7,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/contacto",
   title: SITE.es.footer.contact,
   description:
-    "Escribe a Drinks on Chain: bodegas que quieren trazar sus lotes, licorerías, cavas y restaurantes como puntos de recojo, y prensa.",
+    "Escribe a Drinks on Chain: bodegas que quieren trazar sus lotes, licorerías, cavas y restaurantes como puntos de canje, y prensa.",
 });
 
 export default function Page() {

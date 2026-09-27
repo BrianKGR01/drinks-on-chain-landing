@@ -12,7 +12,7 @@ const COPY = {
   es: {
     title: "Historia",
     intro: [
-      "Drinks on Chain nace en los valles altos de Bolivia, donde la vid crece entre 1.700 y 2.400 metros y madura bajo una luz que en pocos lugares del mundo se parece. Somos un puente entre las familias que cultivan esas parcelas y las personas que descorchan sus botellas.",
+      "Drinks on Chain nace en los valles altos de Bolivia, donde la vid crece entre 1.700 y 2.400 metros y madura bajo una luz como la de pocos lugares del mundo. Somos un puente entre las familias que cultivan esas parcelas y las personas que descorchan sus botellas.",
       "Cada lote que entra en nuestra red se registra desde la tierra: la altitud del terreno, la cepa, la fecha de vendimia, el tanque, la barrica o el alambique, los meses de reposo. Ese registro viaja con la botella y se puede leer con un gesto.",
     ],
     sections: [
@@ -26,14 +26,14 @@ const COPY = {
       {
         heading: "La altura",
         body: [
-          "A dos mil metros la radiación ultravioleta es intensa y las noches frías. La uva engrosa la piel, guarda acidez y concentra aromas. Los tintos de Tarija, con el Tannat a la cabeza, salen tensos y minerales; el singani, destilado del vino de Moscatel de Alejandría cultivada por encima de los 1.600 metros, conserva el jazmín y el durazno blanco de la uva.",
+          "A dos mil metros la radiación ultravioleta es intensa y las noches frías. La uva engrosa la piel, guarda acidez y concentra aromas. Los tintos de Tarija, con el Tannat a la cabeza, salen tensos y minerales; el singani, destilado de vino de uva Moscatel de Alejandría cultivada por encima de los 1.600 metros, conserva el jazmín y el durazno blanco de la uva.",
           "El mapa que recorre esta web dibuja esas zonas una a una, con su exposición, su suelo y su altitud, como lo haría un cuaderno de campo.",
         ],
       },
       {
         heading: "La trazabilidad",
         body: [
-          "Del pesaje en báscula al embotellado, cada paso queda escrito en una bitácora que no se puede reescribir. La botella lleva un código único; quien lo lee ve la historia completa y, si quiere, puede adquirir la próxima añada directamente a la bodega.",
+          "Del pesaje en báscula al embotellado, cada paso queda escrito en la bitácora del lote y, al cerrarlo, su huella digital se ancla en la red: cualquier cambio posterior se detecta. La botella lleva un código único; quien lo lee ve la historia completa y, si quiere, puede adquirir la próxima añada directamente de la bodega.",
         ],
       },
     ],
@@ -64,7 +64,7 @@ const COPY = {
       {
         heading: "Traceability",
         body: [
-          "From the weighbridge to bottling, every step is written in a log that cannot be rewritten. Each bottle carries a unique code; whoever reads it sees the whole story and, if they wish, can buy the next vintage directly from the winery.",
+          "From the weighbridge to bottling, every step is written in the lot's log and, when the lot is closed, its digital fingerprint is anchored on the network, so any later change can be detected. Each bottle carries a unique code; whoever reads it sees the whole story and, if they wish, can buy the next vintage directly from the winery.",
         ],
       },
     ],
