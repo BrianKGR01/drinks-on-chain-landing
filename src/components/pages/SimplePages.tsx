@@ -1,20 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
 import { DiscoverFooter } from "@/components/pages/DiscoverFooter";
 import { PageShell } from "@/components/pages/PageShell";
 import { MapPreview } from "@/components/site/MapPreview";
 import { SITE } from "@/content/site-i18n";
-import { NETWORK_COPY, WINERIES } from "@/content/network";
 import { VILLAGES } from "@/content/villages";
 import { LINKS } from "@/lib/links";
+import type { Lang, Localized } from "@/lib/scene-contract";
 import { useExperience } from "@/store/experience";
 import styles from "./Editorial.module.css";
 import simple from "./SimplePages.module.css";
-
-const noop = () => () => {};
-const useMounted = () => useSyncExternalStore(noop, () => true, () => false);
 
 export function HowItWorksPage() {
   const lang = useExperience((s) => s.lang);
@@ -55,12 +51,17 @@ export function HowItWorksPage() {
   );
 }
 
-export function WineriesPage() {
+/** The test network as the wineries page shows it, prepared on the server (see app/bodegas/page.tsx). */
+export interface WineryDirectory {
+  wineries: Array<{ id: string; slug: string; name: string; status: string; town: string }>;
+  status: Record<Lang, Record<string, string>>;
+  testNotice: Localized;
+}
+
+export function WineriesPage({ directory }: { directory: WineryDirectory }) {
   const lang = useExperience((s) => s.lang);
   const t = SITE[lang];
   const p = t.pages.wineries;
-  const mounted = useMounted();
-  const network = NETWORK_COPY[lang];
   return (
     <PageShell eyebrow={p.title}>
       <header className={styles.contactHeader}>
@@ -72,7 +73,7 @@ export function WineriesPage() {
       <div className={simple.maps}>
         {VILLAGES.map((v) => (
           <figure key={v.id} className={simple.mapCard}>
-            {mounted ? <MapPreview village={v} title={v.name[lang]} className={simple.mapSvg} /> : <div className={simple.mapSvg} style={{ aspectRatio: "1" }} />}
+            <MapPreview village={v} title={v.name[lang]} className={simple.mapSvg} />
             <figcaption>
               <span>{v.name[lang]}</span>
               <span>{v.parcels.length} {lang === "es" ? "zonas" : "zones"}</span>
@@ -81,16 +82,16 @@ export function WineriesPage() {
         ))}
       </div>
       <ul className={simple.wineryGrid}>
-        {WINERIES.map((w) => (
+        {directory.wineries.map((w) => (
           <li key={w.id}>
             <a href={LINKS.bodegasProfile(w.slug)}>{w.name}</a>
             <span className={simple.wineryMeta}>
-              {network.status[w.status]} · {w.town}
+              {directory.status[lang][w.status]} · {w.town}
             </span>
           </li>
         ))}
       </ul>
-      <p className={simple.networkNote}>{network.testNotice}</p>
+      <p className={simple.networkNote}>{directory.testNotice[lang]}</p>
       <p className={simple.center}>
         <a href={LINKS.bodegas} className={simple.cta}>
           {p.cta}
