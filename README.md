@@ -27,7 +27,7 @@ Copia `.env.example` a `.env.local`. Los enlaces a los otros sitios nunca se esc
 
 | Variable | Uso | Desarrollo |
 |---|---|---|
-| `NEXT_PUBLIC_URL_APP` | Marketplace (`app.`) | `http://localhost:3002` |
+| `NEXT_PUBLIC_URL_APP` | Marketplace (`app.`) | `http://localhost:3005` |
 | `NEXT_PUBLIC_URL_BODEGAS` | Sitio de las bodegas (`bodegas.`) | `http://localhost:3000` |
 | `NEXT_PUBLIC_SITE_URL` | Origen canónico (metadatos, sitemap, robots) | sin definir: Vercel en producción, `localhost:3001` |
 
