@@ -1,6 +1,6 @@
 # Drinks on Chain — Landing principal
 
-Sitio del dominio raíz del ecosistema Drinks on Chain. Público primario: el consumidor. Presenta qué es Drinks on Chain, cómo funciona (escanea · descubre · adquiere · retira), los vinos de la red y las bodegas, y envía a las aplicaciones: el Marketplace (`app.`) para explorar y comprar, y el sitio de las bodegas (`bodegas.`) para el público B2B.
+Sitio del dominio raíz del ecosistema Drinks on Chain. Público primario: el consumidor. Presenta qué es Drinks on Chain, cómo funciona (escanea · descubre · adquiere · canjea), los vinos de la red y las bodegas, y envía a las aplicaciones: el Marketplace (`app.`) para explorar y comprar, y el sitio de las bodegas (`bodegas.`) para el público B2B.
 
 Este sitio **no autentica a nadie**: no tiene sesión, cookies de identidad ni formularios de credenciales. "Entrar" siempre lleva al Marketplace.
 
@@ -8,18 +8,23 @@ Plan y roadmap: `../docs/02-plan-landing-ecosistema.md` y `../docs/07-roadmap-la
 
 ## Stack
 
-Next.js 16 (App Router) · React 19 · TypeScript estricto · Tailwind CSS 4 + CSS Modules · zustand (idioma, barrera de edad, menú). Tipografías Cormorant Garamond y EB Garamond vía `next/font` (autoalojadas). Sin WebGL: el mapa del héroe es un canvas y las vistas previas son SVG, generados desde la geometría compartida (`MapCanvas`, `MapPreview`). Vercel Web Analytics sin cookies (hay que activarlo en el panel del proyecto).
+Next.js 16 (App Router) · React 19 · TypeScript estricto · Tailwind CSS 4 + CSS Modules · zustand (idioma, barrera de edad, menú). Tipografías Cormorant Garamond y EB Garamond vía `next/font` (autoalojadas). Sin WebGL: el mapa del héroe y las vistas previas de los valles son canvas dibujados desde la geometría compartida (`MapCanvas`, `MapPreview`). Vercel Web Analytics sin cookies (hay que activarlo en el panel del proyecto).
 
 La barrera de edad es un velo de papel sobre el mapa del héroe, que se dibuja debajo; mientras está visible la página no se desplaza ni recibe foco, y al entrar el velo se levanta sobre el héroe.
 
 ## Scripts
 
+Node 22 (`.nvmrc`) y pnpm 10.
+
 ```bash
-pnpm dev --port 3001
+pnpm dev          # http://localhost:3001
 pnpm build
 pnpm lint
-pnpm exec tsc --noEmit
+pnpm typecheck    # next typegen + tsc --noEmit
+pnpm e2e          # Playwright: build de producción en el puerto 3121 (E2E_PORT para cambiarlo)
 ```
+
+La primera vez: `pnpm exec playwright install chromium`. Las pruebas de humo (`e2e/`) cubren la portada sin errores de consola, la barrera de edad, la navegación, el cambio ES/EN, las rutas principales y axe (sin violaciones serias) en escritorio y móvil. La CI (`.github/workflows/ci.yml`) corre lint, typecheck, build y Playwright en cada push y PR a `dev` y `main`; si falla, el informe queda como artefacto.
 
 ## Variables de entorno
 
@@ -37,7 +42,7 @@ Copia `.env.example` a `.env.local`. Los enlaces a los otros sitios nunca se esc
 src/
   app/                 /, /vinos, /como-funciona, /bodegas, /tecnologia, /historia, /contacto, /aviso-legal, /privacidad, /b/[codigo] (redirige al visor)
   components/
-    site/              SiteHeader, SiteFooter, MapPreview (SVG del mapa)
+    site/              SiteHeader, SiteFooter, MapCanvas y MapPreview (mapas en canvas)
     home/              secciones de la página de inicio
     intro/             barrera de edad y ornamentos (compartidos con el sitio de bodegas)
     pages/             páginas editoriales (compartidas) y páginas propias (SimplePages)
