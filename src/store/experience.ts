@@ -24,7 +24,11 @@ export const useExperience = create<ExperienceState>((set) => ({
   lang: "es",
   entered: false,
   menuOpen: false,
-  setLang: (lang) => set({ lang }),
+  setLang: (lang) => {
+    // assistive tech and the browser's translation read the document language
+    document.documentElement.lang = lang;
+    set({ lang });
+  },
   enter: () => {
     try {
       window.sessionStorage.setItem(GATE_KEY, "1");

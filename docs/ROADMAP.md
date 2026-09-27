@@ -23,7 +23,7 @@ Convenciones: trabajo en `dev`, Conventional Commits, PR `dev → main` al cerra
 - [x] 2.1 Solo Drinks on Chain en pie, contacto y aviso legal (sin otra razón social). · 25-09-2026
 - [x] 2.2 La sección "Las bodegas" y `/bodegas` muestran la red de prueba (catálogo de `08-datos-de-prueba.md`) con su estado (Socia, En conversación, Referencia) en lugar de listar productores reales como si fueran socios. · 25-09-2026
 - [x] 2.3 Enlaces de parcela hacia el sitio de bodegas con la ruta nueva `/valles/[valle]/[parcela]`. · 25-09-2026
-- [ ] 2.4 Revisión de textos ES/EN. (Los textos nuevos están en ES y EN; falta la revisión completa de los existentes.)
+- [x] 2.4 Revisión de textos ES/EN: ortografía, inglés natural y términos del producto acordado (un NFT por botella, pase de canje que caduca en horas, puntos de canje, ventana de canje con aviso por correo, billetera que crea y custodia la plataforma, pago en bolivianos, anclaje del hash al cerrar el lote); fuera las promesas de precio ("precio de bodega", "precio menor en preventa") y las passkeys; privacidad sin "recuerda tu idioma". `<html lang>` sigue al idioma elegido · 27-09-2026
 
 ## 3 · SEO técnico
 
@@ -40,7 +40,7 @@ Convenciones: trabajo en `dev`, Conventional Commits, PR `dev → main` al cerra
 ## 5 · Rendimiento y accesibilidad
 
 - [x] 5.1 Fuentes autoalojadas (`next/font` descarga y sirve Cormorant y EB Garamond desde el propio dominio) — verificar que no hay peticiones a Google Fonts. · 25-09-2026
-- [ ] 5.2 Lighthouse móvil ≥ 90 en rendimiento y ≥ 95 en accesibilidad en `/`; corregir lo que baje. **Accesibilidad cumplida** (100 en `/`, `/bodegas`, `/como-funciona`); rendimiento pendiente (ver mediciones).
+- [ ] 5.2 Lighthouse móvil ≥ 90 en rendimiento y ≥ 95 en accesibilidad en `/`; corregir lo que baje. **Accesibilidad cumplida** (100). Rendimiento mejorado el 27-09-2026 (la portada ya puntúa, previsualizaciones en canvas, menos JavaScript), pero **sin llegar a 90 de forma estable** en esta máquina: ver mediciones y cuello de botella.
 - [x] 5.3 Navegación por teclado: foco visible, orden lógico, barrera de edad con foco atrapado, enlace "Saltar al contenido". · 25-09-2026
 - [x] 5.4 `prefers-reduced-motion` respetado en la barrera, la transición y el héroe. · 25-09-2026
 
@@ -53,6 +53,16 @@ Convenciones: trabajo en `dev`, Conventional Commits, PR `dev → main` al cerra
 - [x] 7.1 `pnpm lint`, `pnpm exec tsc --noEmit` y `pnpm build` sin errores. · 25-09-2026
 - [x] 7.2 Prueba manual en móvil y escritorio, sin errores de consola. · 25-09-2026
 - [ ] 7.3 PR `dev → main` con capturas.
+
+## O0-WEB-1 · Cierre del Sistema 0 (27-09-2026)
+
+- [x] Node 22 (`.nvmrc`, `engines`), `packageManager` como en los repos de la organización y script `typecheck` (`next typegen && tsc --noEmit`) · 27-09-2026
+- [x] Enlaces: valores locales por defecto Marketplace `localhost:3005` y bodegas `localhost:3000` (`src/lib/links.ts`, `.env.example`) · 27-09-2026
+- [x] Pruebas de humo con Playwright (`e2e/`, escritorio y móvil): portada sin errores de consola, barrera de edad (entrar, contenido bloqueado sin confirmar, idioma), navegación, cambio ES/EN, `/vinos`, `/bodegas`, `/como-funciona`, `/tecnologia`, 404 y axe sin violaciones serias · 27-09-2026
+- [x] CI (`.github/workflows/ci.yml`): lint, typecheck, build y Playwright (Chromium) en push y PR a `dev` y `main`; informe como artefacto si falla · 27-09-2026
+- [x] Rendimiento: `MapPreview` en canvas (antes ~1.500 nodos SVG por mapa), datos de la portada, `/vinos` y `/bodegas` preparados en el servidor (los textos de las zonas y las historias de las bodegas, ~50 kB comprimidos, ya no viajan como JavaScript), wordmark de la barrera visible desde el primer pintado · 27-09-2026
+- [x] Accesibilidad: aviso del pie con contraste AA (3,9:1 → 6:1) y botón "Entrar" de la barrera con área real de 200 × 60 px · 27-09-2026
+- [ ] Variables `NEXT_PUBLIC_URL_*` en el proyecto de Vercel (las crea la coordinación): `NEXT_PUBLIC_URL_BODEGAS` ya; `NEXT_PUBLIC_URL_APP` cuando exista el Marketplace
 
 ## Correcciones tras la revisión del cliente (25-09-2026)
 
@@ -69,6 +79,22 @@ Convenciones: trabajo en `dev`, Conventional Commits, PR `dev → main` al cerra
 | `/como-funciona` | 77 | 100 | 96 | 100 | LCP 4,2 s, TBT 300 ms |
 
 "Buenas prácticas" pierde puntos solo por el 404 local de `/_vercel/insights/script.js`, que existe únicamente en Vercel. Siguiente paso de rendimiento: medir en el despliegue de Vercel (compresión y CDN reales), aligerar los SVG de `/bodegas` (sin árboles ni casas en miniaturas) y revisar el LCP del héroe.
+
+## Mediciones del 27-09-2026 (Lighthouse 12.8, móvil, `next start` local, 3 ejecuciones)
+
+Máquina: i5-7200U de 2 núcleos con la CPU al 76–100 % por otros procesos (benchmarkIndex de Lighthouse 580–1.080). Con el multiplicador por defecto (4×) la simulación trata esta CPU como una de gama alta y penaliza de más; la guía de calibración de Lighthouse pide un multiplicador menor para un benchmarkIndex por debajo de ~1.300, así que se midió también con 2×. Las cifras varían mucho entre ejecuciones (una ejecución de `/como-funciona` dio 26 con un FCP de 11 s por la carga de la máquina).
+
+| Página | Antes 4× | Después 4× | Antes 2× | Después 2× |
+|---|---|---|---|---|
+| `/` | sin puntuar 2 de 3 (NO_LCP), 66 | 57 · 62 · 79 | sin puntuar 3 de 3 | 72 · 78 · 81 |
+| `/como-funciona` | 51 · 56 · 79 | 58 · 76 (+ 26 atípico) | 82 · 84 · 93 | 81 · 88 · 90 |
+| `/bodegas` | 58 · 67 · 70 | 68 · 68 · 71 | 48 · 53 · 85 | 84 · 86 · 91 |
+
+Accesibilidad 100, SEO 100 y buenas prácticas 96 (solo el 404 local de `/_vercel/insights/script.js`) en todas.
+
+**Qué cambió**: la portada ya tiene LCP (el wordmark de la barrera; antes todo el contenido entraba con un fundido de opacidad desde 0 hecho en el compositor, y Chrome no lo reporta). `/bodegas` pasa de ~1.700 a ~350 nodos y su TBT baja. La portada ya no descarga el fragmento de 140 kB (48 kB comprimidos) con los textos de las zonas.
+
+**Cuello de botella**: el LCP simulado (3,3–4,4 s). En local todo llega antes del primer pintado, así que la simulación de Lighthouse (Lantern) cuenta en el camino del LCP todos los bytes pedidos hasta entonces: las cuatro fuentes precargadas (168 kB: Cormorant y EB Garamond, redonda y cursiva, que ya se usan en el primer pintado de la barrera) y el marco de React/Next (≈115 kB comprimidos), más su evaluación en una CPU saturada. Para bajar de ahí haría falta quitar una familia o sus cursivas (cambio de diseño) o no hidratar la barrera. Siguiente paso: medir con PageSpeed Insights sobre el despliegue de Vercel (la cuota diaria de la API estaba agotada el 27-09) o en una máquina sin carga, antes de decidir cambios de diseño.
 
 ## Fuera de este roadmap
 

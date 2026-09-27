@@ -9,7 +9,7 @@ const es = {
   certify: "Certifico que tengo la edad legal para el consumo de alcohol en mi país",
   enter: "Entrar",
   legalNotice: "Aviso legal",
-  menu: "MENU",
+  menu: "MENÚ",
   map: "MAPA",
   valley: "VALLE",
   close: "Cerrar",
@@ -39,6 +39,7 @@ const es = {
   historyTitle: "Historia",
   winesTitle: "Vinos",
   ageGateAria: "Confirmación de mayoría de edad",
+  ageGateNav: "Idioma y avisos",
   skipToContent: "Saltar al contenido",
   scrollHint: "Desliza para recorrer el valle",
 };
@@ -80,6 +81,7 @@ const en: typeof es = {
   historyTitle: "History",
   winesTitle: "Wines",
   ageGateAria: "Legal drinking age confirmation",
+  ageGateNav: "Language and notices",
   skipToContent: "Skip to content",
   scrollHint: "Scroll to travel the valley",
 };

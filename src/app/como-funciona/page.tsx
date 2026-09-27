@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/site";
 export const metadata: Metadata = pageMetadata({
   path: "/como-funciona",
   title: SITE.es.pages.how.title,
-  description: `${SITE.es.pages.how.intro} Escanea, descubre, adquiere y retira tus botellas.`,
+  description: `${SITE.es.pages.how.intro} Escanea, descubre, adquiere y canjea tus botellas.`,
 });
 
 export default function Page() {

@@ -46,7 +46,7 @@ export function SiteHeader() {
           </nav>
 
           <div className={styles.right}>
-            <div className={styles.langs} role="group" aria-label="Idioma">
+            <div className={styles.langs} role="group" aria-label={t.language}>
               {LANGS.map((code) => (
                 <button key={code} type="button" className="underline-anim" aria-current={lang === code ? "true" : undefined} onClick={() => setLang(code)}>
                   {code.toUpperCase()}
