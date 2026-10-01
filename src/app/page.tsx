@@ -5,6 +5,7 @@ import { NETWORK_COPY, WINERIES } from "@/content/network";
 import { getParcelContent } from "@/content/parcels";
 import { SITE } from "@/content/site-i18n";
 import { VILLAGES } from "@/content/villages";
+import { readApiOrigin } from "@/lib/api-origin";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({ path: "/", description: SITE.es.hero.lead });
@@ -48,5 +49,6 @@ function networkSummary(): NetworkSummary {
 }
 
 export default function Page() {
-  return <Home featured={featuredWines()} network={networkSummary()} />;
+  // The size of the waiting list is only asked for when there is an API behind `/api/v1`.
+  return <Home featured={featuredWines()} network={networkSummary()} waitlistCount={readApiOrigin() !== null} />;
 }
