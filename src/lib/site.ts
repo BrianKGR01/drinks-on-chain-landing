@@ -25,7 +25,18 @@ const OG_IMAGE = { url: "/opengraph-image", type: "image/png", width: 1200, heig
  * including the image: the root `opengraph-image` file only reaches pages
  * that do not declare their own `openGraph`.
  */
-export function pageMetadata({ path, title, description }: { path: string; title?: string; description: string }): Metadata {
+export function pageMetadata({
+  path,
+  title,
+  description,
+  image,
+}: {
+  path: string;
+  title?: string;
+  description: string;
+  /** Share image of the page's own `opengraph-image` file; the site's default one otherwise. */
+  image?: { url: string; alt: string };
+}): Metadata {
   const fullTitle = title ? `${title} · ${SITE_NAME}` : `${SITE_NAME} · ${SITE_TAGLINE}`;
   return {
     title: title ?? { absolute: fullTitle },
@@ -38,7 +49,7 @@ export function pageMetadata({ path, title, description }: { path: string; title
       siteName: SITE_NAME,
       type: "website",
       locale: "es_BO",
-      images: [OG_IMAGE],
+      images: [image ? { ...OG_IMAGE, ...image } : OG_IMAGE],
     },
   };
 }

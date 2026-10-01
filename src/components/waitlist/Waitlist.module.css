@@ -1,0 +1,285 @@
+/* Waiting list. Phone first: people arrive from a QR and fill the form with one
+   hand, so everything is one column with large targets; from 1024px the reasons
+   sit beside the form. Paper, ink and one gold: --accent for strokes,
+   --accent-deep for small text and filled buttons (AA). Only transform and
+   opacity are animated. */
+
+.page {
+  position: relative;
+  z-index: 2;
+  background: var(--paper);
+}
+.inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2.25rem 1rem 0;
+  display: grid;
+  gap: 2rem;
+}
+
+/* ------------------------------------------------------------- headline */
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+.title {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.875rem, 7.4vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+.lead {
+  margin: 1rem 0 0;
+  max-width: 34em;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+/* keeps its line whether or not the number arrives: no layout shift */
+.count {
+  margin: 0.6rem 0 0;
+  min-height: 1.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.0625rem;
+  line-height: 1.5rem;
+  color: var(--accent-deep);
+}
+.count + .benefits { margin-top: 0.6rem; }
+
+.benefits {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+.benefits li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.benefits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0.8rem;
+  height: 1px;
+  background: var(--accent);
+}
+.benefits strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+/* ----------------------------------------------------------------- form */
+.panel {
+  border: 1px solid var(--hairline);
+  border-top: 2px solid var(--accent);
+  background: var(--paper);
+  padding: 1.5rem 1.125rem 1.75rem;
+  scroll-margin-top: 5.5rem;
+}
+.panelTitle {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.form { display: grid; gap: 1.35rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+.label {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.optional { letter-spacing: 0.08em; text-transform: none; color: var(--muted); }
+/* 17px: iOS zooms the page when a focused field is under 16px */
+.input {
+  width: 100%;
+  min-height: 3rem;
+  font: inherit;
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  padding: 0.65rem 0.8rem;
+  appearance: none;
+}
+.input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent-deep); }
+.input[aria-invalid="true"] { border-color: #9b2c1f; }
+.hint { margin: 0; font-size: 0.9375rem; line-height: 1.4; color: var(--muted); }
+.error { margin: 0; font-size: 0.9375rem; line-height: 1.4; color: #9b2c1f; }
+
+/* what interests you: three radios drawn as one segmented control */
+.choice { border: 0; margin: 0; padding: 0; min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.choice legend { padding: 0; margin-bottom: 0.5rem; }
+.options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
+.option { position: relative; display: block; cursor: pointer; }
+.option input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.option span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.5rem 0.25rem;
+  border: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.option input:checked + span { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--paper); }
+.option input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.choice[aria-invalid="true"] .option span { border-color: #9b2c1f; }
+
+.check { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 1rem; line-height: 1.45; color: var(--ink); cursor: pointer; }
+.check input {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0;
+  accent-color: var(--accent-deep);
+}
+.check input[aria-invalid="true"] { outline: 1px solid #9b2c1f; outline-offset: 2px; }
+.check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.privacy { color: var(--ink-soft); }
+.privacyLink, .mail { border-bottom: 1px solid var(--accent); color: var(--accent-deep); white-space: nowrap; }
+.privacyLink:hover, .mail:hover { color: var(--ink); border-color: var(--ink); }
+
+/* honeypot: out of sight for people, visible to naive bots */
+.trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.foot { display: grid; gap: 0.75rem; margin-top: 0.25rem; }
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.9rem 1.5rem 0.8rem 1.75rem;
+  border: 1px solid var(--accent-deep);
+  background-color: var(--accent-deep); /* paper on deep gold: AA contrast */
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  text-align: center;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.submit:hover { transform: translateY(-1px); opacity: 0.92; }
+.submit:active { transform: none; }
+.submit[disabled] { opacity: 0.5; cursor: not-allowed; transform: none; }
+.submit[aria-disabled="true"] { opacity: 0.7; cursor: progress; transform: none; }
+.ghost { composes: submit; background-color: transparent; color: var(--accent-deep); }
+.quiet {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  border-bottom: 1px solid var(--accent);
+  padding: 0.6rem 0 0.2rem;
+}
+.quiet:hover { color: var(--ink); border-color: var(--ink); }
+
+.status { margin: 0; font-size: 1rem; line-height: 1.45; color: var(--ink); overflow-wrap: anywhere; }
+.status:empty { display: none; }
+.notice {
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1rem;
+  border-left: 2px solid var(--accent);
+  background: var(--paper-2);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------- confirmation */
+.done { text-align: center; animation: arrive 0.6s var(--ease-out) both; }
+@keyframes arrive {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.doneTitle {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  scroll-margin-top: 6.5rem; /* clear of the sticky header when focus scrolls to it */
+}
+/* the heading takes focus by script (tabindex=-1) to be announced; it is not a control */
+.doneTitle:focus, .doneTitle:focus-visible { outline: none; }
+.doneNumber { margin: 1.5rem 0 0; display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
+.doneNumberLabel, .doneLabel {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.doneNumber strong {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3rem, 16vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  padding: 0.1em 0.5em 0.15em;
+  border-top: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent);
+}
+.doneNumberPrefix { font-size: 0.42em; letter-spacing: 0.08em; color: var(--accent-deep); vertical-align: 0.5em; }
+.doneLabel { margin: 2rem 0 0.5rem; }
+.doneText { margin: 0 auto; max-width: 30em; font-size: 1.0625rem; line-height: 1.5; color: var(--ink-soft); }
+.share { margin-top: 0.5rem; }
+.shareActions { display: grid; gap: 0.75rem; margin-top: 0.5rem; }
+.shareStatus { margin: 0.75rem 0 0; min-height: 1.45rem; font-size: 1rem; line-height: 1.45; color: var(--ink); }
+.shareUrl { overflow-wrap: anywhere; user-select: all; }
+.doneAgain { margin: 1.25rem 0 0; }
+
+@media (min-width: 480px) {
+  .inner { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .panel { padding: 2rem 1.75rem 2.25rem; }
+}
+@media (min-width: 1024px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
+    gap: 5rem;
+    align-items: start;
+    padding-top: 5rem;
+  }
+  .intro { position: sticky; top: 7rem; }
+  .lead { font-size: 1.3125rem; }
+  .benefits, .count + .benefits { margin-top: 2rem; gap: 1.25rem; }
+  .benefits li { font-size: 1.0625rem; }
+  .benefits strong { font-size: 1.1875rem; }
+  .panel { padding: 2.5rem 2.25rem 2.75rem; }
+}

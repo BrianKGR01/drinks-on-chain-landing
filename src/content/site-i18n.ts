@@ -13,12 +13,14 @@ const es = {
     close: "Cerrar",
     home: "Inicio",
     language: "Idioma",
+    waitlist: "Lista de espera",
   },
   hero: {
     eyebrow: "Tarija · Valle de Cinti · Bolivia",
     title: "Cada botella, con su lugar y su historia.",
     lead: "Vinos y singanis de los valles altos de Tarija y Cinti, verificados de la parcela a la copa. Adquiérelos directamente de la bodega, sigue su elaboración y recógelos en un punto de canje.",
     cta: "Explorar los vinos",
+    waitlist: "Unirme a la lista",
     scanned: "¿Escaneaste una botella?",
     scannedHint: "Abre el visor con el código de la etiqueta",
   },
@@ -64,6 +66,13 @@ const es = {
     text: "La red se construye con bodegas que registran sus lotes y puntos de canje que entregan las botellas. Conoce cómo funciona y pide el alta.",
     cta: "Para bodegas y puntos de canje",
   },
+  waitlist: {
+    eyebrow: "Lista de espera",
+    title: "Sé de los primeros",
+    text: "Vinos y singanis de altura con trazabilidad verificable. Apúntate y te escribiremos antes de abrir la preventa.",
+    cta: "Unirme a la lista",
+    count: (n: string) => `Ya somos ${n} en la lista`,
+  },
   footer: {
     explore: "Explorar",
     network: "La red",
@@ -106,19 +115,26 @@ const es = {
     },
     privacy: {
       title: "Privacidad",
-      p: "Este sitio no usa cookies de seguimiento ni recoge datos personales. Solo recuerda, en tu navegador y durante la sesión, que confirmaste tu edad. Las aplicaciones de Drinks on Chain informan de su tratamiento de datos en cada formulario.",
+      p: "Este sitio no usa cookies de seguimiento. Recuerda, en tu navegador y solo durante la sesión, que confirmaste tu edad y, si llegaste desde un enlace con origen (por ejemplo, el código QR de un evento), ese origen. Las aplicaciones de Drinks on Chain informan de su tratamiento de datos en cada formulario.",
+      waitlistTitle: "Lista de espera",
+      waitlist: [
+        "Si te apuntas a la lista de espera guardamos tu nombre y tu correo y, si los dejas, tu WhatsApp y tu ciudad; además, qué te interesa, el idioma, el origen del enlace por el que llegaste y la fecha en que diste tu consentimiento. Para evitar abusos se registran también la dirección IP y el navegador desde los que te inscribiste.",
+        "Usamos esos datos solo para escribirte sobre la preventa. Los ve únicamente el equipo de Drinks on Chain; no vendemos datos ni usamos rastreo publicitario.",
+        "Para corregirlos o pedir que los borremos, escríbenos a",
+      ],
     },
     notFound: { title: "Página no encontrada", back: "Volver al inicio" },
   },
 };
 
 const en: typeof es = {
-  nav: { wines: "Wines", how: "How it works", wineries: "Wineries", history: "History", b2b: "For wineries and redemption points", enter: "Enter", menu: "Menu", close: "Close", home: "Home", language: "Language" },
+  nav: { wines: "Wines", how: "How it works", wineries: "Wineries", history: "History", b2b: "For wineries and redemption points", enter: "Enter", menu: "Menu", close: "Close", home: "Home", language: "Language", waitlist: "Waiting list" },
   hero: {
     eyebrow: "Tarija · Cinti Valley · Bolivia",
     title: "Every bottle, with its place and its story.",
     lead: "Wines and singanis from the high valleys of Tarija and Cinti, verified from the parcel to the glass. Buy them straight from the winery, follow how they are made and collect them at a redemption point.",
     cta: "Explore the wines",
+    waitlist: "Join the list",
     scanned: "Scanned a bottle?",
     scannedHint: "Open the viewer with the code on the label",
   },
@@ -152,6 +168,13 @@ const en: typeof es = {
     more: "How the technology works",
   },
   b2b: { title: "Do you make wine or singani? Do you run a wine shop or a cellar?", text: "The network is built by wineries that record their lots and redemption points that hand over the bottles. See how it works and apply to join.", cta: "For wineries and redemption points" },
+  waitlist: {
+    eyebrow: "Waiting list",
+    title: "Be among the first",
+    text: "High-altitude wines and singanis with verifiable traceability. Sign up and we will write to you before the pre-sale opens.",
+    cta: "Join the list",
+    count: (n: string) => `${n} people are already on the list`,
+  },
   footer: { explore: "Explore", network: "The network", legal: "Legal", tech: "Technology", contact: "Contact", privacy: "Privacy", legalNotice: "Legal notice", forWineries: "For wineries", forPickup: "Redemption points", responsible: "Drink responsibly. Not for sale to anyone under 18.", madeBy: "© 2026 Drinks on Chain · Tarija, Bolivia" },
   pages: {
     how: {
@@ -176,7 +199,16 @@ const en: typeof es = {
         { h: "What we store", p: "Your email, your bottles and your redemption passes. We do not sell data or use advertising trackers." },
       ],
     },
-    privacy: { title: "Privacy", p: "This site uses no tracking cookies and collects no personal data. It only remembers, in your browser and for the current session, that you confirmed your age. The Drinks on Chain applications explain how they process data on each form." },
+    privacy: {
+      title: "Privacy",
+      p: "This site uses no tracking cookies. It remembers, in your browser and only for the current session, that you confirmed your age and, if you arrived through a link that names its origin (for example, the QR code of an event), that origin. The Drinks on Chain applications explain how they process data on each form.",
+      waitlistTitle: "Waiting list",
+      waitlist: [
+        "If you join the waiting list we store your name and your email and, if you give them, your WhatsApp number and your city; also what you are interested in, the language, the origin of the link you arrived through and the date you gave your consent. To prevent abuse, the IP address and the browser you signed up from are recorded too.",
+        "We use that data only to write to you about the pre-sale. Only the Drinks on Chain team sees it; we do not sell data or use advertising trackers.",
+        "To correct it or ask us to delete it, write to",
+      ],
+    },
     notFound: { title: "Page not found", back: "Back to home" },
   },
 };
