@@ -10,6 +10,17 @@ const BODEGAS = process.env.NEXT_PUBLIC_URL_BODEGAS ?? (PROD ? "https://drinks-o
 
 const join = (base: string, path = "") => `${base.replace(/\/$/, "")}${path}`;
 
+/** General contact address of Drinks on Chain (the one of the legal notice). */
+export const CONTACT_EMAIL = "contacto@drinksonchain.bo";
+
+/** Consumer waiting list of this site. */
+export const WAITLIST_PATH = "/lista-de-espera";
+/**
+ * Props of every `<Link>` to the list. Not prefetched: a prefetch would download the form's
+ * JavaScript on the pages that only link to it (the home, and every page through the header).
+ */
+export const WAITLIST_LINK = { href: WAITLIST_PATH, prefetch: false } as const;
+
 export const LINKS = {
   /** Marketplace home (browse without an account). */
   app: join(APP),
@@ -24,4 +35,6 @@ export const LINKS = {
   bodegasJoin: join(BODEGAS, "/unirse"),
   bodegasProfile: (slug: string) => join(BODEGAS, `/bodegas/${slug}`),
   bodegasParcel: (village: string, parcel: string) => join(BODEGAS, `/valles/${village}/${parcel}`),
+  /** WhatsApp's share sheet with a prepared message (the person picks the chat). */
+  whatsappShare: (text: string) => `https://wa.me/?text=${encodeURIComponent(text)}`,
 } as const;

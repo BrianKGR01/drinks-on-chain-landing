@@ -33,6 +33,16 @@
   font-size: 14px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
+  white-space: nowrap;
+}
+/* five entries: tighter below wide desktops so none of them wraps */
+@media (max-width: 1439px) {
+  .nav { gap: 20px; font-size: 13px; letter-spacing: 0.2em; }
+}
+@media (max-width: 1279px) {
+  .inner { gap: 20px; }
+  .nav { gap: 14px; font-size: 12px; letter-spacing: 0.14em; }
+  .right { gap: 16px; }
 }
 .right {
   display: flex;
@@ -63,7 +73,8 @@
 .burger[aria-expanded="true"] .burgerLines span:first-child { transform: translateY(3.5px) rotate(45deg); }
 .burger[aria-expanded="true"] .burgerLines span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
 
-@media (max-width: 1023px) {
+/* below this the five entries do not fit beside the wordmark: the menu button takes over */
+@media (max-width: 1199px) {
   .inner { grid-template-columns: auto auto; justify-content: space-between; gap: 16px; }
   .nav, .right .langs, .right .enter { display: none; }
   .burger { display: inline-flex; }

@@ -1,13 +1,23 @@
 import type { NextConfig } from "next";
+import { readApiOrigin } from "./src/lib/api-origin";
 
 const isDev = process.env.NODE_ENV === "development";
 
 /**
+ * Backend API (server variable). The browser calls `/api/v1/*` of this site and `src/proxy.ts`
+ * rewrites it with the client's IP signed (plan/03 §6, P-1; O1-OPS-1).
+ */
+if (process.env.API_ORIGIN && !readApiOrigin()) console.warn(`API_ORIGIN is not an http(s) URL; /api/v1 stays off: ${process.env.API_ORIGIN}`);
+
+/**
  * Content Security Policy without a nonce: every page is prerendered and the
- * site holds no user data, while a nonce would force each page to render on
+ * site keeps no session, while a nonce would force each page to render on
  * the server. Hence `'unsafe-inline'` for scripts (Next.js bootstrap and the
  * age-gate boot script) and no external origin in production. Vercel Web Analytics
  * is same-origin (`/_vercel/insights/*`), covered by `'self'`.
+ * The waiting-list form posts with `fetch` to this site's own `/api/v1` proxy, so
+ * `connect-src` and `form-action` stay 'self': the API's origin never reaches the
+ * browser, and there is no captcha script or frame to allow.
  * Development only: `'unsafe-eval'` for React's dev tooling and the debug
  * build of the analytics script, which is served from va.vercel-scripts.com.
  */
@@ -18,6 +28,7 @@ const csp = [
   "img-src 'self' data: blob:",
   "font-src 'self'",
   "connect-src 'self'",
+  "frame-src 'none'",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -43,7 +54,11 @@ const nextConfig: NextConfig = {
     browserToTerminal: false,
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // API responses rewritten by src/proxy.ts are never stored in Vercel's cache
+      { source: "/api/v1/:path*", headers: [{ key: "x-vercel-enable-rewrite-caching", value: "0" }] },
+    ];
   },
 };
 

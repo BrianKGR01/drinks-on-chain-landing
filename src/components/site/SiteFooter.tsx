@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { SITE } from "@/content/site-i18n";
-import { LINKS } from "@/lib/links";
+import { LINKS, WAITLIST_LINK } from "@/lib/links";
 import { useExperience } from "@/store/experience";
 import styles from "./SiteFooter.module.css";
 
@@ -24,6 +24,7 @@ export function SiteFooter() {
           <Link href="/bodegas" className="underline-anim">{t.nav.wineries}</Link>
           <Link href="/tecnologia" className="underline-anim">{t.footer.tech}</Link>
           <Link href="/historia" className="underline-anim">{t.nav.history}</Link>
+          <Link {...WAITLIST_LINK} className="underline-anim">{t.nav.waitlist}</Link>
         </nav>
         <nav className={styles.col} aria-label={t.footer.network}>
           <h2>{t.footer.network}</h2>

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { LANGS } from "@/content/i18n";
 import { SITE } from "@/content/site-i18n";
-import { LINKS } from "@/lib/links";
+import { LINKS, WAITLIST_LINK } from "@/lib/links";
 import { useExperience } from "@/store/experience";
 import styles from "./MainMenu.module.css";
 
@@ -27,12 +27,13 @@ export function MainMenu() {
   const [hover, setHover] = useState<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  const items = [
+  const items: { href: string; label: string; prefetch?: false }[] = [
     { href: "/", label: t.nav.home },
     { href: "/vinos", label: t.nav.wines },
     { href: "/como-funciona", label: t.nav.how },
     { href: "/bodegas", label: t.nav.wineries },
     { href: "/historia", label: t.nav.history },
+    { ...WAITLIST_LINK, label: t.nav.waitlist },
   ];
 
   // Escape closes; the page underneath does not scroll; focus moves into the
@@ -91,6 +92,7 @@ export function MainMenu() {
           <Link
             key={it.href}
             href={it.href}
+            prefetch={it.prefetch}
             className={styles.link}
             style={{ transitionDelay: `${0.15 + i * 0.08}s` }}
             onMouseEnter={() => setHover(i)}

@@ -8,9 +8,10 @@ import { MapCanvas } from "@/components/site/MapCanvas";
 import { MapPreview } from "@/components/site/MapPreview";
 import { HeroVine } from "@/components/home/HeroVine";
 import { VineRows } from "@/components/home/VineRows";
+import { WaitlistCount } from "@/components/waitlist/WaitlistCount";
 import { SITE } from "@/content/site-i18n";
 import { TARIJA, CINTI } from "@/content/villages";
-import { LINKS } from "@/lib/links";
+import { LINKS, WAITLIST_LINK } from "@/lib/links";
 import type { Lang, Localized } from "@/lib/scene-contract";
 import { useEntered } from "@/lib/use-entered";
 import { useExperience } from "@/store/experience";
@@ -38,6 +39,8 @@ export interface NetworkSummary {
 interface HomeProps {
   featured: FeaturedWine[];
   network: NetworkSummary;
+  /** Whether to ask the API for the size of the waiting list ("Ya somos N"). */
+  waitlistCount: boolean;
 }
 
 const noop = () => () => {};
@@ -87,7 +90,7 @@ const ICONS = {
  * network are summarised there, so the long zone texts and winery stories
  * never reach this page's JavaScript.
  */
-export function Home({ featured, network }: HomeProps) {
+export function Home({ featured, network, waitlistCount }: HomeProps) {
   const lang = useExperience((s) => s.lang);
   const t = SITE[lang];
   const mounted = useMounted();
@@ -112,7 +115,11 @@ export function Home({ featured, network }: HomeProps) {
           <h1 className={styles.heroTitle}>{t.hero.title}</h1>
           <p className={styles.heroLead}>{t.hero.lead}</p>
           <div className={styles.heroActions}>
-            <a href={LINKS.app} className={styles.ctaPrimary}>
+            {/* not prefetched: the form's code loads on its own page only (WAITLIST_LINK in links.ts) */}
+            <Link {...WAITLIST_LINK} className={styles.ctaPrimary}>
+              {t.hero.waitlist}
+            </Link>
+            <a href={LINKS.app} className={styles.ctaOutline}>
               {t.hero.cta}
             </a>
             <Link href="/como-funciona#escanear" className={styles.ctaQuiet}>
@@ -248,6 +255,19 @@ export function Home({ featured, network }: HomeProps) {
             {t.b2b.cta}
           </a>
         </div>
+      </section>
+
+      {/* ------------------------------------------------- waiting list */}
+      <section className={styles.waitlist} aria-labelledby="home-waitlist">
+        <p className="small-heading">{t.waitlist.eyebrow}</p>
+        <h2 id="home-waitlist" className={styles.h2}>
+          {t.waitlist.title}
+        </h2>
+        <p className={styles.waitlistText}>{t.waitlist.text}</p>
+        {waitlistCount ? <WaitlistCount lang={lang} className={styles.waitlistCount} /> : null}
+        <Link {...WAITLIST_LINK} className={styles.ctaPrimary}>
+          {t.waitlist.cta}
+        </Link>
       </section>
     </main>
   );

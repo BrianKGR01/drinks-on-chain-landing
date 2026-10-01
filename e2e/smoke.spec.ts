@@ -5,7 +5,8 @@ import { pastGate, seriousViolations, settle, trackErrors } from "./support";
 // console errors, age gate, main navigation, ES/EN switch, key routes and axe
 // on the home and an inner page, on desktop and on a phone.
 
-const isMobile = (page: Page) => (page.viewportSize()?.width ?? 1280) < 1024;
+// Same width as the header's switch to the menu button (SiteHeader.module.css).
+const isMobile = (page: Page) => (page.viewportSize()?.width ?? 1280) < 1200;
 
 /** Opens the full-screen menu on phones; on desktop the header nav is already there. */
 async function openNav(page: Page) {

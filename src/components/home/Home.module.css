@@ -354,6 +354,29 @@
 .b2b h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(24px, 2.4vw, 36px); letter-spacing: 0.04em; margin: 0 0 10px; text-wrap: balance; }
 .b2b p { font-size: 17px; color: var(--ink-soft); margin: 0; max-width: 40em; }
 
+/* waiting list: the last call before the footer */
+.waitlist {
+  max-width: 1536px;
+  margin: 0 auto;
+  padding: 104px clamp(16px, 3.5vw, 50px) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.waitlistText { font-size: clamp(17px, 1.4vw, 21px); line-height: 1.55; color: var(--ink-soft); max-width: 34em; margin: 20px 0 0; }
+/* keeps its line whether or not the number arrives: no layout shift */
+.waitlistCount {
+  min-height: 24px;
+  margin: 12px 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 24px;
+  color: var(--accent-deep);
+}
+.waitlist .ctaPrimary { margin-top: 28px; }
+
 @media (max-width: 1023px) {
   .steps, .wines { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .wineries { grid-template-columns: 1fr; gap: 48px; }
@@ -371,4 +394,9 @@
   .wineryList { grid-template-columns: 1fr; }
   .b2bInner { flex-direction: column; align-items: flex-start; }
   .b2b { padding: 64px 0; }
+  .waitlist { padding-top: 72px; }
+  /* three calls in the hero: the two buttons first, the quiet link under them */
+  .heroActions { gap: 16px 14px; margin-top: 32px; }
+  .heroActions .ctaPrimary { padding: 15px 18px 13px 22px; letter-spacing: 0.24em; }
+  .heroActions .ctaQuiet { flex-basis: 100%; margin-top: 8px; }
 }
