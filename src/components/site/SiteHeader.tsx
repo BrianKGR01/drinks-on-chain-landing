@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Logo } from "@/components/brand/Logo";
 import { LANGS } from "@/content/i18n";
 import { SITE } from "@/content/site-i18n";
-import { LINKS } from "@/lib/links";
+import { LINKS, WAITLIST_LINK } from "@/lib/links";
 import { useExperience } from "@/store/experience";
 import { MainMenu } from "./MainMenu";
 import styles from "./SiteHeader.module.css";
@@ -24,11 +24,12 @@ export function SiteHeader() {
   const pathname = usePathname();
   const t = SITE[lang].nav;
 
-  const items = [
+  const items: { href: string; label: string; prefetch?: false }[] = [
     { href: "/vinos", label: t.wines },
     { href: "/como-funciona", label: t.how },
     { href: "/bodegas", label: t.wineries },
     { href: "/historia", label: t.history },
+    { ...WAITLIST_LINK, label: t.waitlist },
   ];
 
   return (
@@ -39,7 +40,7 @@ export function SiteHeader() {
 
           <nav className={styles.nav} aria-label={t.menu}>
             {items.map((it) => (
-              <Link key={it.href} href={it.href} className="underline-anim" aria-current={pathname === it.href ? "true" : undefined}>
+              <Link key={it.href} href={it.href} prefetch={it.prefetch} className="underline-anim" aria-current={pathname === it.href ? "true" : undefined}>
                 {it.label}
               </Link>
             ))}

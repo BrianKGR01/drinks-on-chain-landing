@@ -64,6 +64,35 @@ Convenciones: trabajo en `dev`, Conventional Commits, PR `dev → main` al cerra
 - [x] Accesibilidad: aviso del pie con contraste AA (3,9:1 → 6:1) y botón "Entrar" de la barrera con área real de 200 × 60 px · 27-09-2026
 - [ ] Variables `NEXT_PUBLIC_URL_*` en el proyecto de Vercel (las crea la coordinación): `NEXT_PUBLIC_URL_BODEGAS` ya; `NEXT_PUBLIC_URL_APP` cuando exista el Marketplace
 
+## O1b · Lista de espera de consumidores (01-10-2026)
+
+Contrato: `plan/contratos/o1b-lista-de-espera.md` (ecosistema). Pedido durante el evento de Tarija.
+
+- [x] Proxy firmado `/api/v1/*` (`src/proxy.ts`, `src/lib/api-proxy.ts`): reescribe a `${API_ORIGIN}/v1/*` con `X-DOC-Client-IP` y firma HMAC (`PROXY_SHARED_SECRET`); sin `API_ORIGIN` no reescribe y el formulario lo avisa con un correo de contacto. `.env.example` y CSP (`frame-src 'none'`; `connect-src` y `form-action` siguen en `'self'`) · 01-10-2026
+- [x] Página `/lista-de-espera` (ES/EN, metadatos y OG propios, sitemap): titular, tres motivos y formulario (nombre, correo, WhatsApp y ciudad opcionales, interés, mayoría de edad, consentimiento con privacidad, campo trampa); 422 por campo, 429 con el tiempo de espera, error de red y API no disponible · 01-10-2026
+- [x] `?src=` → `source` (validado `[a-z0-9-]{1,40}`, guardado en `sessionStorage` al navegar; uno no válido se quita) · 01-10-2026
+- [x] Confirmación "Estás en la lista" con el número de orden, qué pasa después y compartir (Web Share API; si no, WhatsApp y copiar enlace) con `?src=amigo` · 01-10-2026
+- [x] Llamadas a la acción: botón en el héroe, sección "Sé de los primeros" antes del pie, entrada en el menú, la cabecera y el pie; "Ya somos N" desde 25 personas · 01-10-2026
+- [x] Barrera de edad rápida en la página de la lista (`data-gate-quick`): del QR al formulario con un toque · 01-10-2026
+- [x] `/privacidad` y aviso legal dicen qué datos recoge la lista de espera, para qué y cómo pedir que se borren · 01-10-2026
+- [x] Pruebas e2e (`e2e/lista-de-espera.spec.ts`, `e2e/api-proxy.spec.ts`, sustituto de la API en `e2e/stub-api.mjs`): recorrido en frío por el proxy firmado, éxito con posición, 422, 429, red, sin API, `?src=`, compartir, ES/EN, 360 px, axe sin violaciones serias, y que la portada no descarga el JavaScript del formulario · 01-10-2026
+- [x] La cabecera pasa al botón de menú por debajo de 1200 px (antes 1024): con cinco entradas no cabía junto al wordmark · 01-10-2026
+- [ ] Captcha real (Turnstile) cuando existan las claves y el backend lo exija (`WAITLIST_CAPTCHA_REQUIRED`): hoy, campo trampa y límites
+- [ ] Prueba de punta a punta en producción (una inscripción real, verla en el Backoffice) y códigos QR: la hace la coordinación
+
+### Mediciones del 01-10-2026 (Lighthouse 12.8, móvil, `next start` local con la barrera de edad en frío)
+
+Misma máquina y método que el 27-09 (benchmarkIndex 740–930: con el multiplicador por defecto, 4×, la simulación penaliza de más; 2× es el que pide la guía de calibración para esta CPU).
+
+| Página | 4× | 2× | Accesibilidad | Buenas prácticas | SEO |
+|---|---|---|---|---|---|
+| `/lista-de-espera` | 78 · 76 · 70 | 91 · 91 | 100 | 96 | 100 |
+| `/` (con el botón del héroe y la sección nueva) | — | 85 · 84 (27-09: 72 · 78 · 81) | 100 | 96 | 100 |
+
+`/lista-de-espera` a 4×: FCP 1,4–1,9 s, LCP 3,6–3,7 s, TBT 440–740 ms, CLS 0–0,02 (el desplazamiento es el del texto de la barrera al llegar la fuente, igual que en el resto del sitio). "Buenas prácticas" pierde puntos solo por el 404 local de `/_vercel/insights/script.js`.
+
+El JavaScript del formulario (un fragmento de 19,7 kB, 7,2 kB comprimido) solo se descarga en `/lista-de-espera`: los enlaces hacia ella no se precargan y una prueba e2e comprueba que la portada no lo pide. La portada solo añade la línea "Ya somos N" (una petición a `/api/v1/public/waitlist/stats` cuando la sección se acerca a la pantalla, nunca en la carga inicial).
+
 ## Correcciones tras la revisión del cliente (25-09-2026)
 
 - [x] `/vinos` en móvil: las flechas ya no se salen de la pantalla junto a "Adquirir" y "Descubrir" · 25-09-2026

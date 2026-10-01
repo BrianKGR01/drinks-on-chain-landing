@@ -14,6 +14,12 @@ import styles from "./AgeGate.module.css";
 
 /** How long the gate stays mounted while its veil lifts (matches AgeGate.module.css). */
 const LEAVE_MS = 1700;
+/**
+ * Pages reached from a QR on a phone (the waiting list) mark their content with
+ * `data-gate-quick`: the gate shows its statement and "Entrar" at once and lifts fast, so the
+ * visitor gets to the form in one tap (the matching timings are in AgeGate.module.css).
+ */
+const QUICK_LEAVE_MS = 650;
 
 /**
  * Full-screen age confirmation. The entrance choreography is pure CSS
@@ -42,7 +48,8 @@ export function AgeGate() {
     setLeaving(true);
     // Reveal the hero now so its entrance plays while the veil lifts.
     enter();
-    window.setTimeout(() => setGone(true), LEAVE_MS);
+    const quick = document.querySelector("[data-gate-quick]") !== null;
+    window.setTimeout(() => setGone(true), quick ? QUICK_LEAVE_MS : LEAVE_MS);
   }, [enter, leaving]);
 
   // Keep the store in sync when a recent confirmation skips the gate.

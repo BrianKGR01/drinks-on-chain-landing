@@ -4,6 +4,7 @@ import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
 import { AgeGate } from "@/components/intro/AgeGate";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { SourceCapture } from "@/components/waitlist/SourceCapture";
 import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 import { AGE_GATE_BOOT_SCRIPT } from "@/store/experience";
 import "./globals.css";
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         {children}
         <SiteFooter />
+        <SourceCapture />
         <Analytics />
       </body>
     </html>
