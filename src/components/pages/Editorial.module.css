@@ -285,6 +285,9 @@
   margin: 3em 0 1em;
 }
 .legal p + p { margin-top: 1em; }
+.legal p a:not([class]), .inlineLink { border-bottom: 1px solid var(--line); }
+.legal p a:not([class]):hover, .inlineLink:hover { color: var(--accent-deep); border-color: var(--accent); }
+.legal h3[id] { scroll-margin-top: 6rem; }
 
 /* ---------------- Photographs on parcel pages ---------------- */
 .parcelPhoto { width: 100%; margin-top: 2rem; color: var(--ink); }

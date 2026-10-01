@@ -6,7 +6,7 @@ import { PageShell } from "@/components/pages/PageShell";
 import { MapPreview } from "@/components/site/MapPreview";
 import { SITE } from "@/content/site-i18n";
 import { VILLAGES } from "@/content/villages";
-import { LINKS } from "@/lib/links";
+import { CONTACT_EMAIL, LINKS } from "@/lib/links";
 import type { Lang, Localized } from "@/lib/scene-contract";
 import { useExperience } from "@/store/experience";
 import styles from "./Editorial.module.css";
@@ -139,6 +139,12 @@ export function PrivacyPage() {
       </header>
       <div className={styles.legal}>
         <p>{p.p}</p>
+        <h3 id="lista-de-espera">{p.waitlistTitle}</h3>
+        <p>{p.waitlist[0]}</p>
+        <p>{p.waitlist[1]}</p>
+        <p>
+          {p.waitlist[2]} <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+        </p>
         <p>
           <Link href="/aviso-legal" className="underline-anim">
             {t.footer.legalNotice}

@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { PageShell } from "@/components/pages/PageShell";
 import { UI } from "@/content/i18n";
+import { CONTACT_EMAIL } from "@/lib/links";
 import { useExperience } from "@/store/experience";
 import styles from "./Editorial.module.css";
 
@@ -18,7 +20,7 @@ export function LegalPage() {
       </header>
       <div className={styles.legal}>
         <h3>{es ? "Editor" : "Publisher"}</h3>
-        <p>Drinks on Chain. Tarija, Bolivia. contacto@drinksonchain.bo</p>
+        <p>Drinks on Chain. Tarija, Bolivia. {CONTACT_EMAIL}</p>
         <h3>{es ? "Alojamiento" : "Hosting"}</h3>
         <p>Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, Estados Unidos.</p>
         <h3>{es ? "Propiedad intelectual" : "Intellectual property"}</h3>
@@ -30,8 +32,11 @@ export function LegalPage() {
         <h3>{es ? "Datos personales" : "Personal data"}</h3>
         <p>
           {es
-            ? "Este sitio no utiliza cookies de seguimiento ni recoge datos personales. Los formularios de las plataformas de Drinks on Chain informan de su tratamiento en cada caso."
-            : "This site does not use tracking cookies or collect personal data. Forms on the Drinks on Chain platforms disclose their processing case by case."}
+            ? "Este sitio no utiliza cookies de seguimiento. Solo recoge datos personales en el formulario de la lista de espera, con tu consentimiento y para escribirte sobre la preventa. Los formularios de las plataformas de Drinks on Chain informan de su tratamiento en cada caso."
+            : "This site does not use tracking cookies. It collects personal data only in the waiting-list form, with your consent and to write to you about the pre-sale. Forms on the Drinks on Chain platforms disclose their processing case by case."}{" "}
+          <Link href="/privacidad#lista-de-espera" className={styles.inlineLink}>
+            {es ? "Privacidad" : "Privacy"}
+          </Link>
         </p>
         <h3>{es ? "Consumo responsable" : "Responsible drinking"}</h3>
         <p>
