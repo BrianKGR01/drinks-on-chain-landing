@@ -11,5 +11,14 @@ export const metadata: Metadata = { robots: { index: false, follow: false } };
  */
 export default async function Page({ params }: PageProps<"/b/[codigo]">) {
   const { codigo } = await params;
-  redirect(LINKS.appBottle(codigo) ?? SCAN_HELP_PATH);
+  redirect(LINKS.appBottle(decoded(codigo)) ?? SCAN_HELP_PATH);
+}
+
+/** The segment may arrive with its escapes (`%2F`): decode it once, so the link escapes it once. */
+function decoded(segment: string): string {
+  try {
+    return decodeURIComponent(segment);
+  } catch {
+    return segment;
+  }
 }
