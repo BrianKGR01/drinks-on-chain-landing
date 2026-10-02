@@ -101,7 +101,8 @@ export function WinesPage({ wines, initialSlug }: { wines: WineEntry[]; initialS
               <span key={s}>{s}</span>
             ))}
           </div>
-          <div className={styles.controls}>
+          {/* "Adquirir" exists only when there is a Marketplace to buy in (NEXT_PUBLIC_URL_APP). */}
+          <div className={`${styles.controls} ${LINKS.catalog ? "" : styles.controlsSingle}`}>
             <button
               type="button"
               className={`${styles.arrow} ${styles.left}`}
@@ -110,9 +111,11 @@ export function WinesPage({ wines, initialSlug }: { wines: WineEntry[]; initialS
             >
               →
             </button>
-            <a href={LINKS.appWine(current.slug)} className={styles.discover}>
-              {lang === "es" ? "Adquirir" : "Buy"}
-            </a>
+            {LINKS.catalog ? (
+              <a href={LINKS.catalog} className={styles.discover}>
+                {lang === "es" ? "Adquirir" : "Buy"}
+              </a>
+            ) : null}
             <a href={LINKS.bodegasParcel(current.villageSlug, current.slug)} className={styles.discover}>
               {t.discover}
             </a>

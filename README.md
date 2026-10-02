@@ -2,7 +2,7 @@
 
 Sitio del dominio raíz del ecosistema Drinks on Chain. Público primario: el consumidor. Presenta qué es Drinks on Chain, cómo funciona (escanea · descubre · adquiere · canjea), los vinos de la red y las bodegas, y envía a las aplicaciones: el Marketplace (`app.`) para explorar y comprar, y el sitio de las bodegas (`bodegas.`) para el público B2B.
 
-Este sitio **no autentica a nadie**: no tiene sesión, cookies de identidad ni formularios de credenciales. "Entrar" siempre lleva al Marketplace. Su único formulario es el de la **lista de espera** de consumidores (`/lista-de-espera`).
+Este sitio **no autentica a nadie**: no tiene sesión, cookies de identidad ni formularios de credenciales. "Entrar" siempre lleva al Marketplace (y no se muestra mientras el Marketplace no tenga URL pública: ver "Enlaces al Marketplace"). Su único formulario es el de la **lista de espera** de consumidores (`/lista-de-espera`).
 
 Plan y roadmap: `../docs/02-plan-landing-ecosistema.md` y `../docs/07-roadmap-landing-principal.md`. Avance fino: [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
@@ -21,10 +21,12 @@ pnpm dev          # http://localhost:3001
 pnpm build
 pnpm lint
 pnpm typecheck    # next typegen + tsc --noEmit
-pnpm e2e          # Playwright: build de producción en el puerto 3121 (E2E_PORT para cambiarlo)
+pnpm e2e          # Playwright: las dos variantes de abajo, una tras otra
+pnpm e2e:marketplace      # build con NEXT_PUBLIC_URL_APP, puerto 3121 (E2E_PORT para cambiarlo)
+pnpm e2e:sin-marketplace  # build sin NEXT_PUBLIC_URL_APP (la producción de hoy), puerto 3131
 ```
 
-La primera vez: `pnpm exec playwright install chromium`. Las pruebas de humo (`e2e/smoke.spec.ts`) cubren la portada sin errores de consola, la barrera de edad, la navegación, el cambio ES/EN, las rutas principales y axe (sin violaciones serias) en escritorio y móvil. `e2e/lista-de-espera.spec.ts` cubre la lista de espera (ver más abajo) y `e2e/api-proxy.spec.ts` la lógica del proxy firmado. Playwright arranca además `e2e/stub-api.mjs` (puerto 3122, `E2E_API_PORT`), un sustituto del backend al que apunta `API_ORIGIN` durante las pruebas: casi todas interceptan la API en el navegador (`page.route`), y el recorrido en frío pasa de verdad por el proxy y comprueba la firma. La CI (`.github/workflows/ci.yml`) corre lint, typecheck, build y Playwright en cada push y PR a `dev` y `main`; si falla, el informe queda como artefacto.
+La primera vez: `pnpm exec playwright install chromium`. Las pruebas de humo (`e2e/smoke.spec.ts`) cubren la portada sin errores de consola, la barrera de edad, la navegación, el cambio ES/EN, las rutas principales y axe (sin violaciones serias) en escritorio y móvil. `e2e/lista-de-espera.spec.ts` cubre la lista de espera (ver más abajo) y `e2e/api-proxy.spec.ts` la lógica del proxy firmado. `e2e/marketplace.spec.ts` y `e2e/sin-marketplace.spec.ts` comprueban los enlaces al Marketplace con y sin `NEXT_PUBLIC_URL_APP` (la variable se lee al compilar, así que cada estado tiene su build; comparten `.next` y van uno tras otro), y `e2e/links.spec.ts` la lógica de `src/lib/links.ts` sin navegador. Playwright arranca además `e2e/stub-api.mjs` (puerto 3122, `E2E_API_PORT`), un sustituto del backend al que apunta `API_ORIGIN` durante las pruebas: casi todas interceptan la API en el navegador (`page.route`), y el recorrido en frío pasa de verdad por el proxy y comprueba la firma. La CI (`.github/workflows/ci.yml`) corre lint, typecheck, build y Playwright en cada push y PR a `dev` y `main`; si falla, el informe queda como artefacto.
 
 ## Variables de entorno
 
@@ -32,11 +34,28 @@ Copia `.env.example` a `.env.local`. Los enlaces a los otros sitios nunca se esc
 
 | Variable | Uso | Desarrollo |
 |---|---|---|
-| `NEXT_PUBLIC_URL_APP` | Marketplace (`app.`) | `http://localhost:3005` |
+| `NEXT_PUBLIC_URL_APP` | Marketplace (`app.`): catálogo, visor `/b`, "Entrar". Se lee al compilar. **Sin definir en producción** (el Marketplace aún no tiene URL pública) sus enlaces se ocultan o llevan a una página de este sitio: ver "Enlaces al Marketplace" | `http://localhost:3005` |
 | `NEXT_PUBLIC_URL_BODEGAS` | Sitio de las bodegas (`bodegas.`) | `http://localhost:3000` |
 | `NEXT_PUBLIC_SITE_URL` | Origen canónico (metadatos, sitemap, robots, enlace que se comparte desde la lista de espera) | sin definir: Vercel en producción, `localhost:3001` |
 | `API_ORIGIN` | **De servidor** (sin `NEXT_PUBLIC_`). Origen de la API del backend: `src/proxy.ts` reescribe `/api/v1/*` a `${API_ORIGIN}/v1/*`. Sin definir, `/api/v1` responde 404 y `/lista-de-espera` avisa de que el envío no está disponible y da un correo de contacto. La página lo lee al compilar: cambiarlo exige un nuevo despliegue | `http://localhost:4000` |
 | `PROXY_SHARED_SECRET` | **De servidor**. El mismo valor que en el backend del entorno: firma la IP real del visitante (`X-DOC-Client-IP`, HMAC-SHA256) para los límites por IP. Sin definir no se firma y el backend ve la IP de Vercel | sin definir |
+
+## Enlaces al Marketplace
+
+Todos salen de `NEXT_PUBLIC_URL_APP` (`src/lib/links.ts`; `buildLinks` es la función pura que se prueba). Mientras el Marketplace no tenga URL pública, ningún enlace lleva a una ruta que no existe:
+
+| Enlace | Con `NEXT_PUBLIC_URL_APP` | Sin ella (producción hoy) |
+|---|---|---|
+| "Explorar los vinos" (héroe y `/como-funciona`) | `{APP}/catalogo` | `/vinos` de este sitio |
+| "¿Escaneaste una botella?" (héroe) | `{APP}/b` | `/como-funciona#escanear` |
+| "Ver todo en el Marketplace" (portada) | `{APP}/catalogo` | "Ver todos los vinos" → `/vinos` |
+| "Adquirir" (`/vinos`) | `{APP}/catalogo` | no se muestra |
+| "Entrar" (cabecera y menú) | `{APP}` | no se muestra |
+| "Marketplace" (pie) | `{APP}` | no se muestra |
+| "Verifica una botella" (pie y menú) | `{APP}/b` | no se muestra |
+| `/b/{código}` (etiquetas que apuntan al dominio raíz) | redirige a `{APP}/b/{código}` | redirige a `/como-funciona#escanear` |
+
+"Conocer" en las tarjetas de vino de la portada abre ese vino en el escaparate de este sitio (`/vinos?v={zona}`): son vinos editoriales por zona, no colecciones del catálogo. La red de bodegas de la portada y de `/bodegas` sigue saliendo de `src/content` (copia del sitio de bodegas, que ya lee los perfiles públicos de la API) y enlaza a las fichas de ese sitio.
 
 ## Lista de espera
 

@@ -13,7 +13,8 @@ import styles from "./SiteHeader.module.css";
 /**
  * Header of the main landing: wordmark, primary navigation for the consumer,
  * the quiet B2B route, language switch and the single outbound "Entrar".
- * No form, no session: entering always means leaving for the Marketplace.
+ * No form, no session: entering always means leaving for the Marketplace,
+ * so "Entrar" exists only when the Marketplace has a public URL.
  * Below desktop widths the menu button opens the full-screen MainMenu.
  */
 export function SiteHeader() {
@@ -54,9 +55,11 @@ export function SiteHeader() {
                 </button>
               ))}
             </div>
-            <a href={LINKS.appEnter} className={styles.enter}>
-              {t.enter}
-            </a>
+            {LINKS.appEnter ? (
+              <a href={LINKS.appEnter} className={styles.enter}>
+                {t.enter}
+              </a>
+            ) : null}
             <button type="button" className={styles.burger} aria-expanded={menuOpen} aria-controls="site-menu" onClick={() => toggleMenu()}>
               <span className={styles.burgerLines} aria-hidden="true">
                 <span />

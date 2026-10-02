@@ -4,6 +4,7 @@ import Link from "next/link";
 import { DiscoverFooter } from "@/components/pages/DiscoverFooter";
 import { PageShell } from "@/components/pages/PageShell";
 import { MapPreview } from "@/components/site/MapPreview";
+import { SiteLink } from "@/components/site/SiteLink";
 import { SITE } from "@/content/site-i18n";
 import { VILLAGES } from "@/content/villages";
 import { CONTACT_EMAIL, LINKS } from "@/lib/links";
@@ -42,9 +43,9 @@ export function HowItWorksPage() {
         ))}
       </section>
       <p className={simple.center}>
-        <a href={LINKS.app} className={simple.cta}>
+        <SiteLink href={LINKS.wines} className={simple.cta}>
           {t.hero.cta}
-        </a>
+        </SiteLink>
       </p>
       <DiscoverFooter href="/vinos" caption={t.nav.wines} prepend={lang === "es" ? "Descubrir" : "Discover"} />
     </PageShell>

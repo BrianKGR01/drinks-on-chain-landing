@@ -125,6 +125,8 @@
     grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto;
     gap: 0.5rem;
   }
+  /* one link between the arrows (no Marketplace to buy in yet) */
+  .controlsSingle { grid-template-columns: auto minmax(0, 1fr) auto; }
   .controls .discover { text-align: center; font-size: 0.8125rem; letter-spacing: 0.22em; padding-left: 0.22em; }
 }
 @media (max-width: 359px) {
