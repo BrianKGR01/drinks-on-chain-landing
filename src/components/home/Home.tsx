@@ -6,12 +6,13 @@ import { BottleIllustration } from "@/components/ui/InkIllustrations";
 import { InkPhoto } from "@/components/ui/InkPhoto";
 import { MapCanvas } from "@/components/site/MapCanvas";
 import { MapPreview } from "@/components/site/MapPreview";
+import { SiteLink } from "@/components/site/SiteLink";
 import { HeroVine } from "@/components/home/HeroVine";
 import { VineRows } from "@/components/home/VineRows";
 import { WaitlistCount } from "@/components/waitlist/WaitlistCount";
 import { SITE } from "@/content/site-i18n";
 import { TARIJA, CINTI } from "@/content/villages";
-import { LINKS, WAITLIST_LINK } from "@/lib/links";
+import { LINKS, WAITLIST_LINK, WINES_PATH } from "@/lib/links";
 import type { Lang, Localized } from "@/lib/scene-contract";
 import { useEntered } from "@/lib/use-entered";
 import { useExperience } from "@/store/experience";
@@ -119,13 +120,15 @@ export function Home({ featured, network, waitlistCount }: HomeProps) {
             <Link {...WAITLIST_LINK} className={styles.ctaPrimary}>
               {t.hero.waitlist}
             </Link>
-            <a href={LINKS.app} className={styles.ctaOutline}>
+            {/* the catalogue of the Marketplace, or the wines of this site while it has no public URL */}
+            <SiteLink href={LINKS.wines} className={styles.ctaOutline}>
               {t.hero.cta}
-            </a>
-            <Link href="/como-funciona#escanear" className={styles.ctaQuiet}>
+            </SiteLink>
+            {/* the viewer of the Marketplace (/b), or the explanation of this site */}
+            <SiteLink href={LINKS.scan} className={styles.ctaQuiet}>
               <span>{t.hero.scanned}</span>
-              <small>{t.hero.scannedHint}</small>
-            </Link>
+              <small>{LINKS.verify ? t.hero.scannedHint : t.hero.scannedHintHere}</small>
+            </SiteLink>
           </div>
         </div>
       </section>
@@ -173,16 +176,22 @@ export function Home({ featured, network, waitlistCount }: HomeProps) {
               <p className={styles.wineMeta}>
                 {w.parcelName} · {w.villageName[lang]} · {w.altitude} m
               </p>
-              <a href={LINKS.appWine(w.slug)} className={styles.wineCta}>
+              <Link href={LINKS.wine(w.slug)} prefetch={false} className={styles.wineCta} aria-label={`${t.wines.know}: ${w.name[lang]}`}>
                 {t.wines.know} →
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
         <p className={styles.more}>
-          <a href={LINKS.app} className="underline-anim">
-            {t.wines.all}
-          </a>
+          {LINKS.catalog ? (
+            <a href={LINKS.catalog} className="underline-anim">
+              {t.wines.all}
+            </a>
+          ) : (
+            <Link href={WINES_PATH} prefetch={false} className="underline-anim">
+              {t.wines.allHere}
+            </Link>
+          )}
         </p>
       </section>
 

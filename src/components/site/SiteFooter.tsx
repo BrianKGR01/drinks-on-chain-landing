@@ -28,9 +28,11 @@ export function SiteFooter() {
         </nav>
         <nav className={styles.col} aria-label={t.footer.network}>
           <h2>{t.footer.network}</h2>
-          <a href={LINKS.app} className="underline-anim">Marketplace</a>
+          {/* The Marketplace has no public URL yet: without NEXT_PUBLIC_URL_APP its links are not shown. */}
+          {LINKS.app ? <a href={LINKS.app} className="underline-anim">Marketplace</a> : null}
+          {LINKS.verify ? <a href={LINKS.verify} className="underline-anim">{t.footer.verify}</a> : null}
           <a href={LINKS.bodegas} className="underline-anim">{t.footer.forWineries}</a>
-          <a href={`${LINKS.bodegas}/puntos-de-recojo`} className="underline-anim">{t.footer.forPickup}</a>
+          <a href={LINKS.bodegasPickup} className="underline-anim">{t.footer.forPickup}</a>
           <Link href="/contacto" className="underline-anim">{t.footer.contact}</Link>
         </nav>
         <nav className={styles.col} aria-label={t.footer.legal}>

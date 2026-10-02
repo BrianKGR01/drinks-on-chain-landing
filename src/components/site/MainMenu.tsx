@@ -139,9 +139,16 @@ export function MainMenu() {
           <a href={LINKS.bodegas} className="underline-anim">
             {t.nav.b2b} →
           </a>
-          <a href={LINKS.appEnter} className={styles.enter}>
-            {t.nav.enter}
-          </a>
+          {LINKS.verify ? (
+            <a href={LINKS.verify} className="underline-anim">
+              {t.footer.verify} →
+            </a>
+          ) : null}
+          {LINKS.appEnter ? (
+            <a href={LINKS.appEnter} className={styles.enter}>
+              {t.nav.enter}
+            </a>
+          ) : null}
         </div>
         <p className={styles.made}>{t.footer.madeBy}</p>
       </footer>
