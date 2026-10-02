@@ -39,6 +39,11 @@
 }
 .made { margin-top: 1.5rem; font-style: italic; text-transform: none; letter-spacing: 0.05em; color: var(--muted); font-size: 0.75rem; }
 
+/* tablets: four columns do not fit beside the wordmark, which takes a row of its own */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .inner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .brand { grid-column: 1 / -1; }
+}
 @media (max-width: 767px) {
   .inner { grid-template-columns: 1fr 1fr; gap: 2.5rem 1.5rem; padding-top: 3rem; }
   .brand { grid-column: 1 / -1; }

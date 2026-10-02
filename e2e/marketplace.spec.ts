@@ -50,6 +50,18 @@ test.describe("con NEXT_PUBLIC_URL_APP", () => {
     await expect(page.getByRole("main").getByRole("link", { name: "Explorar los vinos" })).toHaveAttribute("href", `${E2E_MARKETPLACE}/catalogo`);
   });
 
+  test("en una tablet estrecha los tres enlaces de salida del menú caben en la pantalla", async ({ page }) => {
+    test.skip(test.info().project.name !== "escritorio", "a viewport of its own: one project is enough");
+    await page.setViewportSize({ width: 800, height: 900 });
+    await page.goto("/como-funciona");
+    await page.getByRole("banner").getByRole("button", { name: "Menú" }).click();
+    const menu = page.getByRole("dialog", { name: "Menú" });
+    for (const name of ["Para bodegas y puntos de canje →", "Verifica una botella →", "Entrar"]) {
+      await expect(menu.getByRole("link", { name, exact: true })).toBeInViewport({ ratio: 1 });
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+  });
+
   test("/vinos ofrece adquirir en el catálogo y abre el vino de ?v=", async ({ page }) => {
     const title = page.getByRole("main").getByRole("heading", { level: 2 });
     await page.goto("/vinos");
