@@ -125,6 +125,19 @@ Accesibilidad 100, SEO 100 y buenas prácticas 96 (solo el 404 local de `/_verce
 
 **Cuello de botella**: el LCP simulado (3,3–4,4 s). En local todo llega antes del primer pintado, así que la simulación de Lighthouse (Lantern) cuenta en el camino del LCP todos los bytes pedidos hasta entonces: las cuatro fuentes precargadas (168 kB: Cormorant y EB Garamond, redonda y cursiva, que ya se usan en el primer pintado de la barrera) y el marco de React/Next (≈115 kB comprimidos), más su evaluación en una CPU saturada. Para bajar de ahí haría falta quitar una familia o sus cursivas (cambio de diseño) o no hidratar la barrera. Siguiente paso: medir con PageSpeed Insights sobre el despliegue de Vercel (la cuota diaria de la API estaba agotada el 27-09) o en una máquina sin carga, antes de decidir cambios de diseño.
 
+## O2-WEB-1 · Enlaces al Marketplace real (02-10-2026)
+
+Contrato: `plan/contratos/o2-erp-confiable.md` §12 y §17.
+
+- [x] `links.ts` con `buildLinks`: catálogo (`/catalogo`), visor y "Verifica una botella" (`/b`), "Entrar" y "Marketplace" desde `NEXT_PUBLIC_URL_APP` · 02-10-2026
+- [x] Sin la variable en producción ningún enlace lleva a una ruta inexistente (antes: `/como-funciona/entrar`, `/como-funciona/b/…`, `/como-funciona/coleccion/…`): "Explorar los vinos" → `/vinos`, "¿Escaneaste una botella?" y `/b/{código}` → `/como-funciona#escanear`; "Entrar", "Marketplace", "Verifica una botella" y "Adquirir" no se muestran · 02-10-2026
+- [x] "Verifica una botella" en el pie y en el menú (ES/EN); las tarjetas de vino de la portada abren su vino en `/vinos?v=` · 02-10-2026
+- [x] e2e en dos builds (`pnpm e2e`): con y sin `NEXT_PUBLIC_URL_APP`; lógica de los enlaces en `e2e/links.spec.ts`; axe sin violaciones serias · 02-10-2026
+- [ ] `NEXT_PUBLIC_URL_APP` en el proyecto de Vercel cuando el Marketplace tenga URL pública (la crea la coordinación)
+- [ ] Red de bodegas desde `GET /v1/public/wineries` (ORG-11), como ya hace el sitio de bodegas: aquí sigue en `src/content`. Pendiente de un paquete compartido (hoy habría que copiar la validación, la caché y la unión con el contenido) y de decidir si la portada debe pedir la API
+- [ ] "Entrar" debería llevar a la pantalla de acceso del Marketplace cuando exista (hoy, a su portada)
+- [ ] Contraste AA en `/vinos` (anterior a esta tarea; axe lo marca como serio y la página no estaba en las pruebas de axe): la lista de vinos inactivos al 50 % de opacidad, "Descubrir" y "Adquirir" en `--accent` en lugar de `--accent-deep`, y el aviso al pie
+
 ## Fuera de este roadmap
 
 - Dominio real y redirecciones `www` / `.com` (M5, pendiente de compra).
