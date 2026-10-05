@@ -23,6 +23,7 @@ const es = {
     waitlist: "Unirme a la lista",
     scanned: "¿Escaneaste una botella?",
     scannedHint: "Abre el visor con el código de la etiqueta",
+    scannedHintHere: "Mira qué cuenta el código de la etiqueta",
   },
   how: {
     eyebrow: "Cómo funciona",
@@ -39,6 +40,7 @@ const es = {
     eyebrow: "Vinos en la red",
     title: "Lo que hoy puedes seguir y adquirir",
     all: "Ver todo en el Marketplace",
+    allHere: "Ver todos los vinos",
     acquire: "Adquirir",
     know: "Conocer",
     presale: "Preventa",
@@ -83,6 +85,7 @@ const es = {
     legalNotice: "Aviso legal",
     forWineries: "Para bodegas",
     forPickup: "Puntos de canje",
+    verify: "Verifica una botella",
     responsible: "Consuma con moderación. Venta prohibida a menores de 18 años.",
     madeBy: "© 2026 Drinks on Chain · Tarija, Bolivia",
   },
@@ -137,6 +140,7 @@ const en: typeof es = {
     waitlist: "Join the list",
     scanned: "Scanned a bottle?",
     scannedHint: "Open the viewer with the code on the label",
+    scannedHintHere: "See what the code on the label tells",
   },
   how: {
     eyebrow: "How it works",
@@ -149,7 +153,7 @@ const en: typeof es = {
     ],
     more: "See the whole journey",
   },
-  wines: { eyebrow: "Wines in the network", title: "What you can follow and buy today", all: "See everything in the Marketplace", acquire: "Buy", know: "Discover", presale: "Pre-sale", ready: "Ready to redeem" },
+  wines: { eyebrow: "Wines in the network", title: "What you can follow and buy today", all: "See everything in the Marketplace", allHere: "See all the wines", acquire: "Buy", know: "Discover", presale: "Pre-sale", ready: "Ready to redeem" },
   wineries: {
     eyebrow: "The wineries",
     title: "A map drawn winery by winery",
@@ -175,7 +179,7 @@ const en: typeof es = {
     cta: "Join the list",
     count: (n: string) => `${n} people are already on the list`,
   },
-  footer: { explore: "Explore", network: "The network", legal: "Legal", tech: "Technology", contact: "Contact", privacy: "Privacy", legalNotice: "Legal notice", forWineries: "For wineries", forPickup: "Redemption points", responsible: "Drink responsibly. Not for sale to anyone under 18.", madeBy: "© 2026 Drinks on Chain · Tarija, Bolivia" },
+  footer: { explore: "Explore", network: "The network", legal: "Legal", tech: "Technology", contact: "Contact", privacy: "Privacy", legalNotice: "Legal notice", forWineries: "For wineries", forPickup: "Redemption points", verify: "Verify a bottle", responsible: "Drink responsibly. Not for sale to anyone under 18.", madeBy: "© 2026 Drinks on Chain · Tarija, Bolivia" },
   pages: {
     how: {
       title: "How it works",

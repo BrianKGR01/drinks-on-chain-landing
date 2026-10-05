@@ -9,7 +9,9 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "preview": "next build && next start --port 3001",
-    "e2e": "playwright test"
+    "e2e": "pnpm e2e:marketplace && pnpm e2e:sin-marketplace",
+    "e2e:marketplace": "playwright test",
+    "e2e:sin-marketplace": "playwright test -c playwright.sin-marketplace.config.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

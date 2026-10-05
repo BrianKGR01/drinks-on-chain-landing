@@ -445,6 +445,8 @@ test.describe("/lista-de-espera", () => {
     await expect(page.getByTestId("waitlist-position")).toHaveText("No. 1,284");
     await expect(page.getByText("We will write to you before the pre-sale opens")).toBeVisible();
     expect(body).toMatchObject({ type: "CONSUMER", locale: "en", interest: "WINE", city: "La Paz", isAdult: true, consent: true });
+    // The confirmation fades in (0.6 s): contrast is measured on its final colours, as in the axe test below.
+    await settle(page, 800);
     expect(await seriousViolations(page)).toEqual([]);
   });
 
