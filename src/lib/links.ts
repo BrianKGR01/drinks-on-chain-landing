@@ -67,6 +67,8 @@ export function buildLinks(urls: SiteUrls) {
     /** Bodegas site (the etched map). */
     bodegas: join(urls.bodegas),
     bodegasJoin: join(urls.bodegas, "/unirse"),
+    /** Waiting list of the wineries. */
+    bodegasWaitlist: join(urls.bodegas, "/lista-de-espera"),
     bodegasPickup: join(urls.bodegas, "/puntos-de-recojo"),
     bodegasProfile: (slug: string) => join(urls.bodegas, `/bodegas/${slug}`),
     bodegasParcel: (village: string, parcel: string) => join(urls.bodegas, `/valles/${village}/${parcel}`),
@@ -83,6 +85,23 @@ export const LINKS = buildLinks({
   // Bodegas site on Vercel until the root domain exists.
   bodegas: siteBase(process.env.NEXT_PUBLIC_URL_BODEGAS) ?? (PROD ? "https://drinks-on-chain-bodegas.vercel.app" : "http://localhost:3000"),
 });
+
+/**
+ * What `/link` (the page shared in applications) adds to the sites above. Each one is hidden
+ * until it exists: no row of that page leads nowhere.
+ */
+export const PITCH = {
+  /** Pitch deck (`NEXT_PUBLIC_URL_PITCH`). */
+  deck: siteBase(process.env.NEXT_PUBLIC_URL_PITCH),
+  /** Recorded pitch (`NEXT_PUBLIC_URL_PITCH_VIDEO`). */
+  video: siteBase(process.env.NEXT_PUBLIC_URL_PITCH_VIDEO),
+} as const;
+
+/** Path of the links page. */
+export const LINK_HUB_PATH = "/link";
+
+/** Social networks, in the order they are shown. Add each one when its account exists. */
+export const SOCIAL: ReadonlyArray<{ label: string; href: string }> = [];
 
 /** True when a link leaves this site (a plain `<a>`), false for a path of this site. */
 export const isExternal = (href: string) => /^https?:\/\//.test(href);
